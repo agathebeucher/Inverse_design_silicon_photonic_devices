@@ -1,21 +1,22 @@
 # Inverse design of silicon photonic devices
 
-
-## GETTING STARTED
-
-### Download
-- Download this git
-- Download the data : https://drive.google.com/file/d/1MrYbl_xirYWJZCTmyr7kOeqM50SCQTUO/view?usp=sharing
-- Transfer the data downloaded in the folder "data" under the name "NN_training_combine_new.csv"
-
-### Requirements
-
-You will find all of the dependency you will need installed in order to run this project : *recquirements.txt*
-
-### Objective 
+## GOAL 
 
 The goal of the project is to predict four design parameters of a nanosilicon waveguide based on the value of the effective index desired. 
 In order to run it, all you have to do is.
+
+## GETTING STARTED
+
+- Download this git
+- Download the data : https://drive.google.com/file/d/1MrYbl_xirYWJZCTmyr7kOeqM50SCQTUO/view?usp=sharing
+- Transfer the data downloaded in the folder "data" under the name "NN_training_combine_new.csv"
+- You will find all of the dependency you will need installed in order to run this project : *requirements.txt*, run this script in a terminal
+
+Once you have installed and downloaded everything, all you have to do is run in your terminal, with the desired values :
+```
+python3 main.py {n_value}
+```
+with n_vlaue for instance : *[w_value, DC_value, pitch_vaue, k_value]*
 
 ## MODELS
 We are here using inverse design in order to achive this prediction : 
