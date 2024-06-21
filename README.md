@@ -23,7 +23,7 @@ We are here using inverse design in order to achive this prediction :
 ### I- Feedforward model
 
 ### II- Inverse Design 
-#### a- Tandem Network
-#### b- Genetic algorithm
+####    a- Tandem Network
+####    b- Genetic algorithm
 
 
