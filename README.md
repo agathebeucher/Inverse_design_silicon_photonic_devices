@@ -3,6 +3,7 @@
 
 ## GETTING STARTED
 
+### Download
 - Download this git
 - Download the data : https://drive.google.com/file/d/1MrYbl_xirYWJZCTmyr7kOeqM50SCQTUO/view?usp=sharing
 - Transfer the data downloaded in the folder "data" under the name "NN_training_combine_new.csv"
