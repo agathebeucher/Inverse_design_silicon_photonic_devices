@@ -2,24 +2,23 @@
 
 ## GOAL 
 
-The goal of the project is to predict four design parameters of a nanosilicon waveguide based on the value of the effective index desired. 
-In order to run it, all you have to do is.
-
+The goal of the project is to predict four design parameters of a nanosilicon waveguide based on a desired effective index value. 
+To get started, follow the instructions below :*
 ## GETTING STARTED ON YOUR MACHINE
 
-- Download this git
-- Download the dataset here : https://drive.google.com/file/d/1MrYbl_xirYWJZCTmyr7kOeqM50SCQTUO/view?usp=sharing
-- Transfer the data downloaded in the folder "data" under the name "NN_training_combine_new.csv"
-- You will find all of the dependency you will need installed in order to run this project : *requirements.txt*, run this script in a terminal
+1. **Download the repository** : Clone or download this Git repository
+2. **Download the Dataset** : obtain the dataset from this [link](https://drive.google.com/file/d/1MrYbl_xirYWJZCTmyr7kOeqM50SCQTUO/view?usp=sharing)
+3. **Transfer the data** : place the dowloaded dataset in the "data" folder and rename it to "NN_training_combine_new.csv"
+4. **Install librairies** : Run the script in *requirements.txt* to install all necessaries dependencies
 
-Once you have installed and downloaded everything, all you have to do is run in your terminal, with the desired values :
+Once you have ieverything set up, you can run tge project by executing the following command in your terminal with the desired value :
 ```
 python3 main.py {n_value}
 ```
-n_value must be a list of float, for instance : n_value=*[w_value, DC_value, pitch_value, k_value]*
+n_value should be a list of floats, for exemple : 'n_value=*[w_value, DC_value, pitch_value, k_value]*'
 
 ## MODELS
-We are here using inverse design in order to predict four design parameters of a nanophotonic silicon waveguide based on the value of the effective index desired.
+This project uses inverse design in order to predict four design parameters of a nanophotonic silicon waveguide based on the value of the effective index desired.
 The four parameters and the effective index are not directly linked, thanks to a FDTD simulation, we predict the frequency spectrum of the waveguide based on those design parameters, and then, we obtain the effective index by extracting the resonance frequency and the k. 
 In our dataset, we have for a combination of design parameters the corresponding frequency spectrum. 
 In other words : 
