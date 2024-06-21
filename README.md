@@ -3,6 +3,7 @@
 ## STRUCTURE
 
 my_project/
+
 ├── data/
 │   ├── NN_training_combine_new.csv
 │   └── README.md
