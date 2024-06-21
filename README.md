@@ -18,32 +18,27 @@ python3 main.py {n_value}
 n_value should be a list of floats, for exemple : 'n_value=*[w_value, DC_value, pitch_value, k_value]*'
 
 ## MODELS
-This project uses inverse design in order to predict four design parameters of a nanophotonic silicon waveguide based on the value of the effective index desired.
-The four parameters and the effective index are not directly linked, thanks to a FDTD simulation, we predict the frequency spectrum of the waveguide based on those design parameters, and then, we obtain the effective index by extracting the resonance frequency and the k. 
-In our dataset, we have for a combination of design parameters the corresponding frequency spectrum. 
+This project uses inverse design to predict four design parameters of a nanophotonic silicon waveguide based on a desired effective index value. The four parameters and the effective index are not directly linked. Using FDTD simulation, we predict the frequency spectrum of the waveguide based on these design parameters, and then obtain the effective index by extracting the resonance frequency and k. 
+Our dataset contains the frequency spectrum for various combinations of design parameters, results of various FDTD simulations : 
 In other words : 
 - X_data=[w,DC,pitch,k] -> 4 values corresponding to the four designs parameters 
 - y_data=[..,..,..] -> 5000 values of the electrical field for frequency values beteween ... and ...
 
 ### I- EDA
-We first filter our data to keep the frequency spectrums that show a peak (>0.01). We than normalize X_data and y_data. 
+First, we filter our data to keep only the frequency spectrums that show a peak (>0.01). We then normalize both X_data and y_data.
 
 ### II- Feedforward model
 
-Because of the nature of the problem (one-to-many), we cannot predict directly the four parameters from one effective index, because for one effective index we have various possible design. We have to use an inverse design. 
+Due to the one-to-many nature of the problem, we cannot directly predict the four parameters from one effective index since multiple designs can correspond to a single effective index. Instead, we use an inverse design approach.
 
-We start by predicting the frequency sprectrum corresponding to four design parameters : this is the response prediction network that we will call the feed-forward network, whose architecture can be found here : *Feedforward_network/feedforward_network_model.py*
-
-We use a fully connected network with four layers, and whose hyperparameters learning_rate, hidden_sizes have been optimized thanks to optuna.
-The model has already been trained and saved here : *Feedforward_network/feedforward_network_trained.pth*
+We start by predicting the frequency spectrum corresponding to four design parameters. This is done using the response prediction network, known as the feedforward network. Its architecture is defined in *Feedforward_network/feedforward_network_model.py*. This fully connected network has four layers, with hyperparameters like learning rate and hidden sizes optimized using Optuna. The trained model is saved at *Feedforward_network/feedforward_network_trained.pth*.
 
 ### III- Inverse Design 
-Now that we are able to predict the frequency response to four design parameters, we want to do the inverse mechanism. There are two possible options :
+Now that we can predict the frequency response to four design parameters, we want to reverse this process. There are two possible approaches:
 
 ####    a) Tandem Network
-First, we use another fullyconnected network that we optimise and train through a tandem network, wich means that we use the feedforward network at the output of the inverse design network in order to transform our problem to a one-to-one problem, meaning that we know teach our model to learn how to fit to a frequency response, rather than the fous parameters, whose response is not unique : 
+We use another fully connected network optimized and trained through a tandem network. This involves using the feedforward network at the output of the inverse design network, transforming our problem into a one-to-one problem. The model learns to fit a frequency response, rather than the four parameters, whose response is not unique.
 
 ####    b) Genetic algorithm
-We can also use a genetic algorithm, that will generate various combination of parameters and wich will test all of them using the feed-forward newtork in order to return the one better fit to give the desired frequency response.
-
+Alternatively, we can use a genetic algorithm to generate various combinations of parameters. This algorithm tests all combinations using the feedforward network to determine the best fit for the desired frequency response.
 
