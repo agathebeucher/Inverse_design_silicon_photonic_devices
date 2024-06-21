@@ -20,9 +20,9 @@ In order to run it, all you have to do is.
 ## MODELS
 We are here using inverse design in order to achive this prediction : 
 
-### Feedforward model
+### I- Feedforward model
 
-### Inverse Design 
+### II- Inverse Design 
 #### a- Tandem Network
 #### b- Genetic algorithm
 
