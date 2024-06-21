@@ -19,7 +19,7 @@ python3 main.py {n_value}
 n_value must be a list of float, for instance : n_value=*[w_value, DC_value, pitch_value, k_value]*
 
 ## MODELS
-We are here using inverse design in order to predict four design parameters of a nanosilicon waveguide based on the value of the effective index desired.
+We are here using inverse design in order to predict four design parameters of a nanophotonic silicon waveguide based on the value of the effective index desired.
 The four parameters and the effective index are not directly linked, thanks to a FDTD simulation, we predict the frequency spectrum of the waveguide based on those design parameters, and then, we obtain the effective index by extracting the resonance frequency and the k. 
 In our dataset, we have for a combination of design parameters the corresponding frequency spectrum. 
 In other words : 
@@ -36,7 +36,7 @@ We use a fully connected network with four layers, and whose hyperparameters lea
 The model has already been trained and saved here : *Feedforward_network/feedforward_network_trained.pth*
 
 ### II- Inverse Design 
-Now that we are able to predict the frequency response to four design parameters, we want to do the inverse mechanism. Now, there are two possible options :
+Now that we are able to predict the frequency response to four design parameters, we want to do the inverse mechanism. There are two possible options :
 
 ####    a- Tandem Network
 First, we use another fullyconnected network that we optimise and train through a tandem network, wich means that we use the feedforward network at the output of the inverse design network in order to transform our problem to a one-to-one problem, meaning that we know teach our model to learn how to fit to a frequency response, rather than the fous parameters, whose response is not unique : 
