@@ -2,16 +2,6 @@
 
 ## STRUCTURE
 
-my_project/
-
-├── data/
-│   ├── NN_training_combine_new.csv
-│   └── README.md
-├── models/
-│   ├── feedforward_model_trained.pth
-│   └── inverse_design_model.pth
-├── notebooks/
-
 ### inverse_design_silicon_photnic_devices/
 - **EDA/**
     - `filter_data.py`
