@@ -8,16 +8,16 @@ Then download the data : https://drive.google.com/file/d/1MrYbl_xirYWJZCTmyr7kOe
 
 Put the data downloaded in "data" under the name "NN_training_combine_new.csv"
 
-### Requirements
+### REQUIREMENTS
 
 You will find all of the dependency you will need installed in order to run this project : *recquirements.txt*
 
-### Objective 
+### OBJECTIVE 
 
 The goal of the project is to predict four design parameters of a nanosilicon waveguide based on the value of the effective index desired. 
-In order to run it, all you have to do is...
+In order to run it, all you have to do is.
 
-## Models
+## MODELS
 We are here using inverse design in order to achive this prediction : 
 
 ### Feedforward model
