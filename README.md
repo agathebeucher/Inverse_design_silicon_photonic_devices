@@ -2,11 +2,10 @@
 
 
 ## GETTING STARTED
-First, download the git.
 
-Then download the data : https://drive.google.com/file/d/1MrYbl_xirYWJZCTmyr7kOeqM50SCQTUO/view?usp=sharing
-
-Put the data downloaded in "data" under the name "NN_training_combine_new.csv"
+- Download this git
+- Download the data : https://drive.google.com/file/d/1MrYbl_xirYWJZCTmyr7kOeqM50SCQTUO/view?usp=sharing
+- Transfer the data downloaded in the folder "data" under the name "NN_training_combine_new.csv"
 
 ### Requirements
 
