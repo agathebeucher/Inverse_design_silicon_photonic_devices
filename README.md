@@ -31,7 +31,9 @@ First, we filter our data to keep only the frequency spectrums that show a peak 
 
 Due to the one-to-many nature of the problem, we cannot directly predict the four parameters from one effective index since multiple designs can correspond to a single effective index. Instead, we use an inverse design approach.
 
-We start by predicting the frequency spectrum corresponding to four design parameters. This is done using the response prediction network, known as the feedforward network. Its architecture is defined in *Feedforward_network/feedforward_network_model.py*. This fully connected network has four layers, with hyperparameters like learning rate and hidden sizes optimized using Optuna. The trained model is saved at *Feedforward_network/feedforward_network_trained.pth*.
+We start by predicting the frequency spectrum corresponding to four design parameters. This is done using the response prediction network, known as the feedforward network. Its architecture is defined in *Feedforward_network/feedforward_network_model.py*. This fully connected network has four layers, with hyperparameters like learning rate and hidden sizes optimized using Optuna. 
+
+The trained model is saved at *Feedforward_network/feedforward_network_trained.pth*.
 
 ### III- Inverse Design 
 Now that we can predict the frequency response to four design parameters, we want to reverse this process. There are two possible approaches:
