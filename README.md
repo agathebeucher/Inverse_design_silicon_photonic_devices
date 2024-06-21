@@ -26,6 +26,9 @@ In other words :
 - X_data=[w,DC,pitch,k] -> 4 values corresponding to the four designs parameters 
 - y_data=[..,..,..] -> 5000 values of the electrical field for frequency values beteween ... and ...
 
+### EDA
+We first filter our data to keep the frequency spectrums that show a peak (>0.01). We than normalize X_data and y_data. 
+
 ### I- Feedforward model
 
 Because of the nature of the problem (one-to-many), we cannot predict directly the four parameters from one effective index, because for one effective index we have various possible design. We have to use an inverse design. 
