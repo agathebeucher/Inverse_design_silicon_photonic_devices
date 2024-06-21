@@ -1,5 +1,25 @@
 # Inverse design of silicon photonic devices
 
+## STRUCTURE
+
+### inverse_design_silicon_photnic_devices/
+- **EDA/**
+    - `filter_data.py`
+    - `normalize_data.py`
+- **Feedforward_network/**
+    - `feedforward_model_trained.pth`
+    - `feedfroward_network_evaluate.py`
+    - `feedforward_network_train.py`
+    - `feedforward_network_model.py`
+- **Inverse_deisgn_network/**
+    - **GA/**
+        - `ga_evaluate.py`
+        - `ga_model.py`
+    - **Tandem_network/**
+        - `Ìnverse_network_evaluate.py`
+        - `Ìnverse_network_model.py`
+        - `Inverse_netwrk_train.py`
+
 ## GOAL 
 
 The goal of the project is to predict four design parameters of a nanosilicon waveguide based on a desired effective index value. 
