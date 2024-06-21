@@ -18,7 +18,7 @@
     - **Tandem_network/**
         - `Ìnverse_network_evaluate.py`
         - `Ìnverse_network_model.py`
-        - `Inverse_netwrk_train.py`
+        - `Inverse_network_train.py`
 
 ## GOAL 
 
