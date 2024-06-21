@@ -16,7 +16,7 @@ Once you have installed and downloaded everything, all you have to do is run in 
 ```
 python3 main.py {n_value}
 ```
-with n_vlaue for instance : *[w_value, DC_value, pitch_vaue, k_value]*
+n_value must be a list of float, for instance : n_value=*[w_value, DC_value, pitch_value, k_value]*
 
 ## MODELS
 We are here using inverse design in order to achive this prediction : 
