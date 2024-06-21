@@ -28,7 +28,10 @@ In other words :
 
 ### I- Feedforward model
 
-Because of the nature of the problem (one-to-many), we cannot predict directly the four parameters from one effective index, because for one effective index we have various possible design. We have to use an inverse design. We start by predicting the frequency sprectrum corresponding to four design parameters : this is the response prediction network that we will call the feed-forward network, whose architecture can be found here : *Feedforward_network/feedforward_network_model.py*
+Because of the nature of the problem (one-to-many), we cannot predict directly the four parameters from one effective index, because for one effective index we have various possible design. We have to use an inverse design. 
+
+We start by predicting the frequency sprectrum corresponding to four design parameters : this is the response prediction network that we will call the feed-forward network, whose architecture can be found here : *Feedforward_network/feedforward_network_model.py*
+
 We use a fully connected network with four layers, and whose hyperparameters learning_rate, hidden_sizes have been optimized thanks to optuna.
 The model has already been trained and saved here : *Feedforward_network/feedforward_network_trained.pth*
 
