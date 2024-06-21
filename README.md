@@ -26,10 +26,10 @@ In other words :
 - X_data=[w,DC,pitch,k] -> 4 values corresponding to the four designs parameters 
 - y_data=[..,..,..] -> 5000 values of the electrical field for frequency values beteween ... and ...
 
-### EDA
+### I- EDA
 We first filter our data to keep the frequency spectrums that show a peak (>0.01). We than normalize X_data and y_data. 
 
-### I- Feedforward model
+### II- Feedforward model
 
 Because of the nature of the problem (one-to-many), we cannot predict directly the four parameters from one effective index, because for one effective index we have various possible design. We have to use an inverse design. 
 
@@ -38,13 +38,13 @@ We start by predicting the frequency sprectrum corresponding to four design para
 We use a fully connected network with four layers, and whose hyperparameters learning_rate, hidden_sizes have been optimized thanks to optuna.
 The model has already been trained and saved here : *Feedforward_network/feedforward_network_trained.pth*
 
-### II- Inverse Design 
+### III- Inverse Design 
 Now that we are able to predict the frequency response to four design parameters, we want to do the inverse mechanism. There are two possible options :
 
-####    a- Tandem Network
+####    a) Tandem Network
 First, we use another fullyconnected network that we optimise and train through a tandem network, wich means that we use the feedforward network at the output of the inverse design network in order to transform our problem to a one-to-one problem, meaning that we know teach our model to learn how to fit to a frequency response, rather than the fous parameters, whose response is not unique : 
 
-####    b- Genetic algorithm
+####    b) Genetic algorithm
 We can also use a genetic algorithm, that will generate various combination of parameters and wich will test all of them using the feed-forward newtork in order to return the one better fit to give the desired frequency response.
 
 
