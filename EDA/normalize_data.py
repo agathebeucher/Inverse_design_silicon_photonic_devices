@@ -1,6 +1,15 @@
 import numpy as np
 from scipy import find_peaks
 
+X_data_array_50_mean=[4.1900793e+02 5.5103260e-01 4.4058459e+02 5.7011140e+06]
+X_data_array_50_std=[1.1512772e+02 2.1334822e-01 1.2148594e+02 1.5868348e+06]
+filtered_frequencies=np.linspace(171309976000000, 222068487407407, 50)
+frequencies = np.linspace(171309976000000, 222068487407407, 5000)
+
+def denormalize_X(X_data_array):
+    N= len(X_data_array)
+    return(X_data_array*X_data_array_50_std[:N]+X_data_array_50_mean[:N])
+
 def normalize_X(X_data_array):
     # X_data est l'ensemble de données d'entrée
     X_data_array_mean = np.mean(X_data_array, axis=0)  # Calculer la moyenne de chaque paramètre
