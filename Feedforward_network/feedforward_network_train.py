@@ -10,8 +10,8 @@ def feedforward_natwork_train(X_train, y_train, X_val, y_val):
     output_size = y_train.shape[1]
 
     # Paramètres du réseau (meilleurs paramètres identifiés)
-    best_lr = 0.001
-    best_hidden_sizes = [300, 300, 300, 300]
+    best_lr = 0.0006763307084440112
+    best_hidden_sizes = [955, 925, 1005, 407, 580, 1309]
 
     # Entraîner le modèle avec les meilleurs paramètres
     feedforward_model = FeedForwardNN(input_size, best_hidden_sizes, output_size)
@@ -22,7 +22,7 @@ def feedforward_natwork_train(X_train, y_train, X_val, y_val):
     train_losses = []
     val_losses = []
 
-    num_epochs = 11000
+    num_epochs = 3400
     for epoch in range(num_epochs):
         feedforward_model.train()
         optimizer.zero_grad()
