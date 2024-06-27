@@ -22,9 +22,9 @@ def filter_data():
     #y_data_5000= df['E_5000']
     #X_data_500= df[['w', 'DC', 'pitch', 'k']]
     #y_data_500= df['E_500']
-    X_data_50 = df[['w', 'DC', 'pitch', 'k']]
-    y_data_50 = df['E_50']
-    nb_peaks=df['nombre_de_pics_50']
+    #X_data_50 = df[['w', 'DC', 'pitch', 'k']]
+    #y_data_50 = df['E_50']
+    #nb_peaks=df['nombre_de_pics_50']
 
     # Filtrer les données pour conserver seulement celles ayant au moins un pic
     #indices_at_least_one_peak_5000 = df[df['nombre_de_pics_5000'] >= 1].index
@@ -35,17 +35,22 @@ def filter_data():
     #X_data_at_least_one_peak_500 = X_data_500.loc[indices_at_least_one_peak_500] # Données réduites à 500 points
     #y_data_at_least_one_peak_500 = y_data_500.loc[indices_at_least_one_peak_500]
 
-    indices_at_least_one_peak_50 = df[df['nombre_de_pics_50'] >= 1].index
-    X_data_at_least_one_peak_50 = X_data_50.loc[indices_at_least_one_peak_50] # Données réduites à 50 points
-    y_data_at_least_one_peak_50 = y_data_50.loc[indices_at_least_one_peak_50]
-    nb_peaks=nb_peaks.loc[indices_at_least_one_peak_50]
+
+    X_data_50=np.load('/home/beucher/Documents/PRE/PRE/data/X_data_array_50.npy').tolist()
+    y_data_50=np.load('/home/beucher/Documents/PRE/PRE/data/y_data_array_50.npy').tolist()
+    nb_peaks=np.load('/home/beucher/Documents/PRE/PRE/data/nb_peaks_array.npy').tolist()
+
+    indices_at_least_one_peak_50 = [i for i, val in enumerate(nb_peaks) if val >= 1.0]
+    X_data_at_least_one_peak_50 = [X_data_50[i] for i in indices_at_least_one_peak_50]
+    y_data_at_least_one_peak_50 = [y_data_50[i] for i in indices_at_least_one_peak_50]
+    nb_peaks_at_least_one_peak_50 = [nb_peaks[i] for i in indices_at_least_one_peak_50]
     #y_data_at_least_one_peak_5000 = y_data_5000.loc[indices_at_least_one_peak_50]
 
     #X_data_array_5000= np.array(X_data_at_least_one_peak_5000.values, dtype=np.float32)
     #y_data_array_5000 = np.array(y_data_at_least_one_peak_5000.values.tolist(), dtype=np.float32)
     #X_data_array_500= np.array(X_data_at_least_one_peak_500.values, dtype=np.float32)
     #y_data_array_500 = np.array(y_data_at_least_one_peak_500.values.tolist(), dtype=np.float32)
-    X_data_array_50= np.array(X_data_at_least_one_peak_50.values, dtype=np.float32)
-    y_data_array_50 = np.array(y_data_at_least_one_peak_50.values.tolist(), dtype=np.float32)
+    X_data_array_50= np.array(X_data_at_least_one_peak_50, dtype=np.float32)
+    y_data_array_50 = np.array(y_data_at_least_one_peak_50, dtype=np.float32)
 
     return(X_data_array_50, y_data_array_50)

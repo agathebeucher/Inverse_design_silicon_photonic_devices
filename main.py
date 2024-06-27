@@ -9,9 +9,12 @@ from GA.ga_model import ga
 from GA.ga_evaluate import error_npred_ndesired
 
 # EDA
-X_data_array_5000, y_data_array_5000, X_data_array_50, y_data_array_50=filter_data()
+X_data_array_50, y_data_array_50=filter_data()
 X_data_array_50_normalized=normalize_X(X_data_array_50)
 y_data_array_50_normalized=normalize_y(y_data_array_50)
+
+# DEVICE
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 # FEEDFORWARD MODEL
 input_size_ffn = 4
