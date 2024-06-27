@@ -22,7 +22,7 @@
 
 ## PROJECT OVERVIEW 
 
-this project for nanoPhotonics design optimization involves developing a feedforward neural network and a genetic algorithm to optimize the design of nanophotonic silicon devices. This tool aims to predict and tune the design parameters of a naniphtonic structure effective based on a specified refractive index at a given wavelength.
+This project for nanophotonics design optimization involves developing a feedforward neural network and a genetic algorithm to optimize the design of nanophotonic silicon devices. This tool aims to predict and tune the design parameters of a naniphtonic structure effective based on a specified refractive index at a given wavelength.
 
 ## GETTING STARTED ON YOUR MACHINE
 
