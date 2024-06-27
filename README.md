@@ -20,10 +20,10 @@
         - `Ìnverse_network_model.py`
         - `Inverse_network_train.py`
 
-## GOAL 
+## PROJECT OVERVIEW 
 
-The goal of the project is to predict four design parameters of a nanosilicon waveguide based on a desired effective index value. 
-To get started, follow the instructions below :*
+this project for nanoPhotonics design optimization involves developing a feedforward neural network and a genetic algorithm to optimize the design of nanophotonic silicon devices. This tool aims to predict and tune the design parameters of a naniphtonic structure effective based on a specified refractive index at a given wavelength.
+
 ## GETTING STARTED ON YOUR MACHINE
 
 You can find the raw dataset from this [link](https://drive.google.com/file/d/1MrYbl_xirYWJZCTmyr7kOeqM50SCQTUO/view?usp=sharing), you can download it and place the dowloaded dataset in a "data" folder at the root folder and make sure the unzip file is named "NN_training_combine_new.csv", but you won't need it to run the rest : 
@@ -41,7 +41,33 @@ python3 main.py --n_desired {n_value} --wavelength_desired {wavelength_value}
 Make sure your values are *floats*.
 
 ## MODELS
-This project uses inverse design to predict four design parameters of a nanophotonic silicon waveguide based on a desired effective index value. The four parameters and the effective index are not directly linked. Using FDTD simulation, we predict the frequency spectrum of the waveguide based on these design parameters, and then obtain the effective index by extracting the resonance frequency and k. 
+
+This project includes a feedforward neural network model that predicts the frequency spectrum of the electric field for a nanophotonic structure. The model takes four design parameters as inputs:
+
+w: Width of the waveguide
+DC: Duty cycle
+Pitch: Distance between adjacent elements
+k: Wave vector
+Using these parameters, the network predicts the electric field spectrum, from which the resonance frequency and the effective refractive index of the structure can be derived.
+
+1. Prediction with Neural Network:
+- Input the design parameters (w, DC, pitch, k) into the feedforward neural network.
+- Predict the frequency spectrum of the electric field.
+- Determine the resonance frequency and compute the effective refractive index n for each wave vector k.
+
+2. Optimization with Genetic Algorithm:
+
+- Generate combinations of design parameters (w, DC, pitch) using a genetic algorithm.
+- For each combination, sweep through multiple values of k.
+- Use the feedforward model to obtain the resonance frequency and the corresponding n for each k.
+- Plot n as a function of the resonance frequency f.
+
+3. Targeted Refractive Index Calculation:
+
+- Input a desired refractive index n and a specific frequency f.
+- The genetic algorithm minimizes the difference between the obtained n from the curve and the desired n, returning the optimal values for w, DC, and pitch.
+
+The four parameters and the effective index are not directly linked. Using FDTD simulation, we predict the frequency spectrum of the waveguide based on these design parameters, and then obtain the effective index by extracting the resonance frequency and k. 
 Our dataset contains the frequency spectrum for various combinations of design parameters, results of various FDTD simulations : 
 In other words : 
 - X_data=[w,DC,pitch,k] -> 4 values corresponding to the four designs parameters 
