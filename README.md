@@ -26,15 +26,15 @@ The goal of the project is to predict four design parameters of a nanosilicon wa
 To get started, follow the instructions below :*
 ## GETTING STARTED ON YOUR MACHINE
 
-You can find the raw dataset from this link : [link](https://drive.google.com/file/d/1MrYbl_xirYWJZCTmyr7kOeqM50SCQTUO/view?usp=sharing), you can download it and place the dowloaded dataset in a "data" folder at the root folder and make sure the unzip file is named "NN_training_combine_new.csv", but you won't need it to run the rest : 
+You can find the raw dataset from this [link](https://drive.google.com/file/d/1MrYbl_xirYWJZCTmyr7kOeqM50SCQTUO/view?usp=sharing), you can download it and place the dowloaded dataset in a "data" folder at the root folder and make sure the unzip file is named "NN_training_combine_new.csv", but you won't need it to run the rest : 
 
 1. **Download the repository** : Clone or download this Git repository
-2. **Install librairies** : Run the script in *requirements.txt* to install all necessaries dependencies : 
+2. **Install librairies** : Run the script *requirements.txt* to install all necessaries dependencies : 
 ```
 pip install -r requirements.txt
 ```
 
-Once you have everything set up, you can run the project by executing the following command in your terminal with the desired values of effective index at a given wavelength in *nanometers* :
+Once you have everything set up, you can run the project by executing the following command in your terminal with the desired values of **effective index** at a given **wavelength** in *nanometers* :
 ```
 python3 main.py --n_desired {n_value} --wavelength_desired {wavelength_value}
 ```
