@@ -1,5 +1,7 @@
 import argparse
 import torch
+import matplotlib.pyplot as plt
+from scipy import constants as ct
 from EDA.filter_data import filter_data
 from EDA.normalize_data import normalize_X, normalize_y
 from Feedforward_network.feedforward_network_model import FeedForwardNN
@@ -23,11 +25,13 @@ feedforward_model.eval()
 def main():
     parser = argparse.ArgumentParser(description="Calculate Best parameters")
     parser.add_argument('--n_desired', type=float, required=True, help='Value of effective index')
-    parser.add_argument('--f_desired', type=float, required=True, help='Value of frequency')
+    parser.add_argument('--wavelength_desired', type=float, required=True, help='Value of wavelength in nanometers')
     args = parser.parse_args()
-    
+
+    f_desired= ct.c/(args.wavelength_desired*1e-9)
+
     best_param = ga(args.f_desired, args.n_desired)
-    error, response_spectrum, _, n_pred, f_pred=error_npred_ndesired(best_param, args.n_desired, args.f_desired)
+    error, response_spectrum, _, n_pred, f_pred=error_npred_ndesired(best_param, args.n_desired, f_desired)
 
     print(f"Best w: {best_param[0]}")
     print(f"Best DC: {best_param[1]}")
@@ -35,6 +39,10 @@ def main():
     print(f"Error predicted with those parameters : {error}")
     print(f"n predicted with those parameters : {n_pred}")
     print(f"f resonance predicted with those parameters : {f_pred}")
+
+    plt.plot(response_spectrum)
+    plt.title("Predicted Response spectrum with best parameters")
+    plt.show()
     
 
 if __name__ == "__main__":

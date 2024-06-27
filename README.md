@@ -36,7 +36,7 @@ pip install -r requirements.txt
 
 Once you have ieverything set up, you can run tge project by executing the following command in your terminal with the desired value :
 ```
-python3 main.py {n_value}
+python3 main.py {n_value} {wavelength_value}
 ```
 n_value should be a list of floats, for exemple : 'n_value=*[w_value, DC_value, pitch_value, k_value]*'
 
