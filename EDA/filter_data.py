@@ -4,23 +4,17 @@ import csv
 import numpy as np
 
 def filter_data():
-    print("Importing data...")
-    file_path = "/home/beucher/Documents/PRE/PRE/data/NN_training_combine_new.csv"
-    data = []
-    with open(file_path, 'r', newline='') as csvfile:
-        reader = csv.reader(csvfile)
-        header = next(reader)  # Lire la première ligne comme en-tête
-        for row in reader:
-            data.append(row)
-    df = pd.DataFrame(data, columns=header)
-    print(df['E_50'][0])
+    
+    #print("Importing data...")
+    #file_path = "/home/beucher/Documents/PRE/PRE/data/NN_training_combine_new.csv"
+    #df= pd.read_csv(file_path)
 
-    print("Converting data...")
+    #print("Converting data...")
     # Convertir chaque élément de la colonne 'E' en une liste de float
     #df['E_5000'] = df['E_5000'].apply(lambda x: ast.literal_eval(x))
-    y_data_50 = df['E_50']
-    y_data_50.fillna('', inplace=True)
-    y_data_50 = y_data_50.apply(lambda x: ast.literal_eval(x)if x != '' else None)
+    #y_data_50 = df['E_50']
+    #y_data_50.fillna('', inplace=True)
+    #y_data_50 = y_data_50.apply(lambda x: ast.literal_eval(x)if x != '' else None)
     
     print("Filtering data...")
     # Diviser les données en X (paramètres) et y (nombre de pics)
