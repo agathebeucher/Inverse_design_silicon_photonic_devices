@@ -2,9 +2,10 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import matplotlib.pyplot as plt
-from ./feedforward_network_model import FeedForwardNN
+from .feedforward_network_model import FeedForwardNN
 
-def feedforward_natwork_train(X_train, y_train, X_val, y_val):
+
+def feedforward_network_train(X_train, y_train, X_val, y_val):
     # Paramètres du réseau
     input_size = X_train.shape[1]
     output_size = y_train.shape[1]

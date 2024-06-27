@@ -11,7 +11,7 @@ def denormalize_X(X_data_array):
     return(X_data_array*X_data_array_50_std[:N]+X_data_array_50_mean[:N])
 
 def normalize_X(X_data_array):
-    print("Normalizing X data")
+    print("Normalizing X data...")
     # X_data est l'ensemble de données d'entrée
     X_data_array_mean = np.mean(X_data_array, axis=0)  # Calculer la moyenne de chaque paramètre
     X_data_array_std = np.std(X_data_array, axis=0)    # Calculer l'écart type de chaque paramètre
@@ -19,10 +19,10 @@ def normalize_X(X_data_array):
     # Normalisation des données d'entrée
     X_data_array_normalized = (X_data_array - X_data_array_mean) / X_data_array_std
 
-    return(X_data_array_normalized)
+    return(X_data_array_normalized, X_data_array_50_mean, X_data_array_50_std)
 
 def normalize_y(y_data_array):
-    print("Normalizing y data")
+    print("Normalizing y data...")
     def normalize_with_max_peak(data_array, window_size=None, adjust_values=True):
         num_samples, vector_length = data_array.shape
         normalized_data_array = np.zeros_like(data_array)

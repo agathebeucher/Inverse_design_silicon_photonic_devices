@@ -10,19 +10,18 @@ def error_npred_ndesired(desired_neff, desired_frequency, feedforward_model, dev
     '''
     Evalue l'erreur entre l'indice voulu et l'indice prédit par le feed_forward network à ces paramètres
     '''
-    best_ind = ga(desired_frequency, desired_neff)
+    best_ind = ga(desired_frequency, desired_neff, feedforward_model, device, X_data_array_50_std, X_data_array_50_mean, filtered_frequencies)
     n_response, response_np=eval_neff_params_frequency(best_ind, desired_neff, desired_frequency, feedforward_model, device, X_data_array_50_std, X_data_array_50_mean, filtered_frequencies)
     if len(n_response[0])==0:
         return(0, response_np, best_ind)
     error=abs(n_response[0][0]-desired_neff)
     return(error, response_np, best_ind, n_response[0], n_response[1])
 
-def error_npred_ndesired(best_ind, desired_neff, desired_frequency):
+def error_npred_ndesired(best_ind, desired_neff, desired_frequency, feedforward_model, device, X_data_array_50_std, X_data_array_50_mean, filtered_frequencies):
     '''
     Evalue l'erreur entre l'indice voulu et l'indice prédit par le feed_forward network à ces paramètres
     '''
-    best_ind = ga(desired_frequency, desired_neff)
-    n_response, response_np=eval_neff_params_frequency(best_ind, desired_neff, desired_frequency)
+    n_response, response_np=eval_neff_params_frequency(best_ind, desired_neff, desired_frequency, feedforward_model, device, X_data_array_50_std, X_data_array_50_mean, filtered_frequencies)
     if len(n_response[0])==0:
         return(0, response_np, best_ind)
     error=abs(n_response[0][0]-desired_neff)
