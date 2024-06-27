@@ -3,14 +3,17 @@ import pandas as pd
 import numpy as np
 
 def filter_data():
+    print("importing data")
     file_path = "../data/NN_training_combine_new.csv"
     df = pd.read_csv(file_path) 
     
+    print("Converting data")
     # Convertir chaque élément de la colonne 'E' en une liste de float
     df['E_5000'] = df['E_5000'].apply(lambda x: ast.literal_eval(x))
     df['E_500'] = df['E_500'].apply(lambda x: ast.literal_eval(x))
     df['E_50'] = df['E_50'].apply(lambda x: ast.literal_eval(x))
-
+    
+    print("Filtering data")
     # Diviser les données en X (paramètres) et y (nombre de pics)
     X_data_5000= df[['w', 'DC', 'pitch', 'k']]
     y_data_5000= df['E_5000']

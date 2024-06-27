@@ -1,5 +1,7 @@
 import numpy as np
 from scipy.signal import argrelextrema
+from scipy import constants as ct
+import torch
 
 def conversion_k(k_usi, grating_pitch):
     return(2*np.pi*k_usi/grating_pitch)
@@ -50,7 +52,7 @@ def n_eff_one(X_data, y_data, freq_50):
     else :
         return([],[])
 
-def calculate_func_neff_f(X_params_without_k_normalized):
+def calculate_func_neff_f(X_params_without_k_normalized, feedforward_model, device, X_data_array_50_std, X_data_array_50_mean, filtered_frequencies):
     '''
     input : X_params_without_k_normalized = [w, DC, pitch]
     output : (n_k_list, f_k_list) -> les points de la courbe n=y(f)
@@ -133,12 +135,12 @@ def filter_trend(f_values, n_values, lookahead=3):
     
     return f_filtered_values, n_filtered_values
 
-def eval_n_eff_balayage_k(X_without_k, f_desired):
+def eval_n_eff_balayage_k(X_without_k, f_desired, feedforward_model, device, X_data_array_50_std, X_data_array_50_mean, filtered_frequencies):
     '''
     input : X_without_k = [w,DC, pitch], f_desired
     output : y(f_desired), avec le fonction y(f)=n déduit de calculate_func_neff_f
     '''
-    n_k_list, f_k_list=calculate_func_neff_f(X_without_k)
+    n_k_list, f_k_list=calculate_func_neff_f(X_without_k, feedforward_model, device, X_data_array_50_std, X_data_array_50_mean, filtered_frequencies)
     f_filtered, n_filtered = filter_trend(f_k_list,n_k_list)
     if f_filtered==[]:
         return(0)

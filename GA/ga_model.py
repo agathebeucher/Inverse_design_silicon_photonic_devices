@@ -1,14 +1,15 @@
 import random
-from ./balayage_k import eval_n_eff_balayage_k
-from ./ga_evaluate import eval_neff_params_frequency
+from balayage_k import eval_n_eff_balayage_k
+from ga_evaluate import eval_neff_params_frequency
+from deap import base, creator, tools, algorithms
 
-def ga(desired_frequency, desired_neff):
+def ga(desired_frequency, desired_neff, feedforward_model, device, X_data_array_50_std, X_data_array_50_mean, filtered_frequencies):
     '''
     input : desired_frequency, desired_neff
     output : best_ind=[w,DC, pitch]
     Renvoie les meilleurs paramètres w,DC, pitch tels que y(f_desired,w,DC, pitch)=n_pred proche de desired_neff
     '''
-    
+    print("Running genetic algorithm...")
     # Création des types de base
     creator.create("FitnessMin", base.Fitness, weights=(-1.0,))
     creator.create("Individual", list, fitness=creator.FitnessMin)
@@ -27,8 +28,8 @@ def ga(desired_frequency, desired_neff):
     # Définir la fonction de fitness
     def evalNeff(individual):
         w, DC, pitch = individual
-        neff = eval_n_eff_balayage_k([w, DC, pitch], desired_frequency)
-        n_pred, response_spectrum = eval_neff_params_frequency([w, DC, pitch], desired_neff, desired_frequency)
+        neff = eval_n_eff_balayage_k([w, DC, pitch], desired_frequency, feedforward_model, device, X_data_array_50_std, X_data_array_50_mean, filtered_frequencies)
+        n_pred, response_spectrum = eval_neff_params_frequency([w, DC, pitch], desired_neff, desired_frequency, feedforward_model, device, X_data_array_50_std, X_data_array_50_mean, filtered_frequencies)
         if len(n_pred[0])==0:
             neff*=10
         return (abs(neff - desired_neff)),

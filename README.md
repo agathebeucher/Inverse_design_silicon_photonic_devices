@@ -29,7 +29,10 @@ To get started, follow the instructions below :*
 1. **Download the repository** : Clone or download this Git repository
 2. **Download the Dataset** : obtain the dataset from this [link](https://drive.google.com/file/d/1MrYbl_xirYWJZCTmyr7kOeqM50SCQTUO/view?usp=sharing)
 3. **Transfer the data** : place the dowloaded dataset in a "data" folder at the root folder and make sure the unzip file is named "NN_training_combine_new.csv"
-4. **Install librairies** : Run the script in *requirements.txt* to install all necessaries dependencies
+4. **Install librairies** : Run the script in *requirements.txt* to install all necessaries dependencies : 
+```
+pip install -r requirements.txt
+```
 
 Once you have ieverything set up, you can run tge project by executing the following command in your terminal with the desired value :
 ```

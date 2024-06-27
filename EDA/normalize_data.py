@@ -1,8 +1,8 @@
 import numpy as np
-from scipy import find_peaks
+from scipy.signal import find_peaks
 
-X_data_array_50_mean=[4.1900793e+02 5.5103260e-01 4.4058459e+02 5.7011140e+06]
-X_data_array_50_std=[1.1512772e+02 2.1334822e-01 1.2148594e+02 1.5868348e+06]
+X_data_array_50_mean=[4.1900793e+02, 5.5103260e-01, 4.4058459e+02, 5.7011140e+06]
+X_data_array_50_std=[1.1512772e+02, 2.1334822e-01, 1.2148594e+02, 1.5868348e+06]
 filtered_frequencies=np.linspace(171309976000000, 222068487407407, 50)
 frequencies = np.linspace(171309976000000, 222068487407407, 5000)
 
@@ -11,6 +11,7 @@ def denormalize_X(X_data_array):
     return(X_data_array*X_data_array_50_std[:N]+X_data_array_50_mean[:N])
 
 def normalize_X(X_data_array):
+    print("Normalizing X data")
     # X_data est l'ensemble de données d'entrée
     X_data_array_mean = np.mean(X_data_array, axis=0)  # Calculer la moyenne de chaque paramètre
     X_data_array_std = np.std(X_data_array, axis=0)    # Calculer l'écart type de chaque paramètre
@@ -21,6 +22,7 @@ def normalize_X(X_data_array):
     return(X_data_array_normalized)
 
 def normalize_y(y_data_array):
+    print("Normalizing y data")
     def normalize_with_max_peak(data_array, window_size=None, adjust_values=True):
         num_samples, vector_length = data_array.shape
         normalized_data_array = np.zeros_like(data_array)

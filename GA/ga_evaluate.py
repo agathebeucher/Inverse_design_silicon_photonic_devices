@@ -1,12 +1,13 @@
 import torch
 import scipy.constants as ct
 import numpy as np
-from ./ga_model import ga
-from ./balayage_k import n_eff_one
-from ../EDA/normalize_data.py import X_data_array_50_mean, X_data_array_50_std, filtered_frequencies
+import sys
+import os
+from ga_model import ga
+from balayage_k import n_eff_one
 
 
-def eval_neff_params_frequency(best_params, desired_neff, desired_frequency):
+def eval_neff_params_frequency(best_params, desired_neff, desired_frequency, feedforward_model, device, X_data_array_50_std, X_data_array_50_mean, filtered_frequencies):
     '''
     Evalue l'indice effectif prédit par le feed_forward network avec les meilleurs paramètres w,DC,pitch,k, 
     et le k déduit du n voulu et de la fréquence choisie
@@ -22,12 +23,12 @@ def eval_neff_params_frequency(best_params, desired_neff, desired_frequency):
     n_response=n_eff_one(best_params_denormalized, response_np, filtered_frequencies)
     return(n_response, response_np)
 
-def error_npred_ndesired(desired_neff, desired_frequency):
+def error_npred_ndesired(desired_neff, desired_frequency, feedforward_model, device, X_data_array_50_std, X_data_array_50_mean, filtered_frequencies):
     '''
     Evalue l'erreur entre l'indice voulu et l'indice prédit par le feed_forward network à ces paramètres
     '''
     best_ind = ga(desired_frequency, desired_neff)
-    n_response, response_np=eval_neff_params_frequency(best_ind, desired_neff, desired_frequency)
+    n_response, response_np=eval_neff_params_frequency(best_ind, desired_neff, desired_frequency, feedforward_model, device, X_data_array_50_std, X_data_array_50_mean, filtered_frequencies)
     if len(n_response[0])==0:
         return(0, response_np, best_ind)
     error=abs(n_response[0][0]-desired_neff)

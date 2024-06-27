@@ -1,10 +1,10 @@
 import argparse
 import torch
-from ./EDA/filter_data import filter_data, 
-from ./EDA/normalize_data import normalize_X, normalize_y
-from ./Feedforward_network/feedforward_network_model import FeedForwardNN
-from ./GA/ga_model import ga
-from ./GA/ga_evaluate import error_npred_ndesired
+from EDA.filter_data import filter_data
+from EDA.normalize_data import normalize_X, normalize_y
+from Feedforward_network.feedforward_network_model import FeedForwardNN
+from GA.ga_model import ga
+from GA.ga_evaluate import error_npred_ndesired
 
 # EDA
 X_data_array_5000, y_data_array_5000, X_data_array_50, y_data_array_50=filter_data()
@@ -22,8 +22,8 @@ feedforward_model.eval()
 # GA
 def main():
     parser = argparse.ArgumentParser(description="Calculate Best parameters")
-    parser.add_argument('--n_desired', type=float, required=True, help='Value of k')
-    parser.add_argument('--f_desired', type=float, required=True, help='Speed of light')
+    parser.add_argument('--n_desired', type=float, required=True, help='Value of effective index')
+    parser.add_argument('--f_desired', type=float, required=True, help='Value of frequency')
     args = parser.parse_args()
     
     best_param = ga(args.f_desired, args.n_desired)
