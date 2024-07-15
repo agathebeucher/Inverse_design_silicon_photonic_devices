@@ -1,14 +1,14 @@
 import numpy as np
 from scipy.signal import find_peaks
 
-X_data_array_50_mean=[4.1900793e+02, 5.5103260e-01, 4.4058459e+02, 5.7011140e+06]
-X_data_array_50_std=[1.1512772e+02, 2.1334822e-01, 1.2148594e+02, 1.5868348e+06]
+X_data_array_5000_mean=[4.1745990e+02, 5.7034820e-01, 4.2528439e+02, 5.6493375e+06]
+X_data_array_5000_std=[1.1564603e+02, 2.1600698e-01, 1.2746652e+02, 1.7770392e+06]
 filtered_frequencies=np.linspace(171309976000000, 222068487407407, 50)
 frequencies = np.linspace(171309976000000, 222068487407407, 5000)
 
 def denormalize_X(X_data_array):
     N= len(X_data_array)
-    return(X_data_array*X_data_array_50_std[:N]+X_data_array_50_mean[:N])
+    return(X_data_array*X_data_array_5000_std[:N]+X_data_array_5000_mean[:N])
 
 def normalize_X(X_data_array):
     print("Normalizing X data...")
@@ -19,7 +19,7 @@ def normalize_X(X_data_array):
     # Normalisation des données d'entrée
     X_data_array_normalized = (X_data_array - X_data_array_mean) / X_data_array_std
 
-    return(X_data_array_normalized, X_data_array_50_mean, X_data_array_50_std)
+    return(X_data_array_normalized, X_data_array_5000_mean, X_data_array_5000_std)
 
 def normalize_y(y_data_array):
     print("Normalizing y data...")

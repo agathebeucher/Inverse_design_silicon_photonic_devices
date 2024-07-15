@@ -25,6 +25,21 @@ def eval_neff_params_frequency(best_params, desired_neff, desired_frequency, fee
     n_response=n_eff_one(best_params_denormalized, response_np, filtered_frequencies)
     return(n_response, response_np)
 
+BOUNDS = {
+    'w': (-1.9, 1.57),
+    'DC': (-2.11, 1.64),
+    'pitch': (-2.8, 1.31)
+}
+
+def check_bouds(individual):
+    ''' Check and correct the param if they are out of bounds'''
+    for i,(param, (lower, upper)) in enumerate(BOUNDS,items()):
+        if individual[i] < lower:
+            individual[i] = lower
+        elif individual[i] > upper:
+            individual[i] = upper
+    return individual
+
 def ga(desired_frequency, desired_neff, feedforward_model, device, X_data_array_50_std, X_data_array_50_mean, filtered_frequencies):
     '''
     input : desired_frequency, desired_neff
@@ -56,12 +71,15 @@ def ga(desired_frequency, desired_neff, feedforward_model, device, X_data_array_
 
     # Définir la fonction de fitness
     def evalNeff(individual):
+        individual=check_bouds(individual)
         w, DC, pitch = individual
         neff = eval_n_eff_balayage_k([w, DC, pitch], desired_frequency, feedforward_model, device, X_data_array_50_std, X_data_array_50_mean, filtered_frequencies)
         n_pred, response_spectrum = eval_neff_params_frequency([w, DC, pitch], desired_neff, desired_frequency, feedforward_model, device, X_data_array_50_std, X_data_array_50_mean, filtered_frequencies)
         if len(n_pred[0])==0:
-            neff*=10
-        return (abs(neff - desired_neff)),
+            diff_f=10
+        else:
+            diff_f=abs(n_pred[0][0]-desired_neff)
+        return (abs(neff - desired_neff)+diff_f),
 
     toolbox.register("evaluate", evalNeff)
     toolbox.register("mate", tools.cxBlend, alpha=0.5)
@@ -70,7 +88,7 @@ def ga(desired_frequency, desired_neff, feedforward_model, device, X_data_array_
 
     # Paramètres de l'algorithme génétique
     population = toolbox.population(n=300)
-    ngen = 40
+    ngen = 20
     cxpb = 0.5
     mutpb = 0.2
 

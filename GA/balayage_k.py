@@ -17,28 +17,21 @@ def find_1D_localmax_one(data,threshold, sample_dist):
     for i in range(maxima_amplitude_sorted.size):
         temp = maxima_amplitude.tolist().index(maxima_amplitude_sorted[i]);
         c[i] = idx[temp]
-    if len(c)>1:
-        return ([])
-    elif len(c)==1:
+    if len(c)>0:
         if max_value-data[c[0]]>0.5:
-            return ([])
-        else :
-            return c
-    else :
+            return([])
+        else:
+            return(c[0])
+    else:
         return([])
 
-def n_eff_one(X_data, y_data, freq_50):
+def n_eff_one(X_data, y_data, freq):
     #get analysis parameters
     peaks_threshold = 0.1
-    peaks_tolerance = 10**(-80/10)
     sample_dist = 1
-    filter_light_line_threshold = 0*1e12
-    n_glass = 1.4484
-    side_sample_for_fit = 100
-    bloch_index_list=[]
 
     #load data
-    freq_axis= freq_50
+    freq_axis= freq
     grating_pitch = X_data[2]*1e-9
     k_value = X_data[3]
     fs_all = y_data
@@ -52,14 +45,14 @@ def n_eff_one(X_data, y_data, freq_50):
     else :
         return([],[])
 
-def calculate_func_neff_f(X_params_without_k_normalized, feedforward_model, device, X_data_array_50_std, X_data_array_50_mean, filtered_frequencies):
+def calculate_func_neff_f(X_params_without_k_normalized, feedforward_model, device, X_data_array_5000_std, X_data_array_5000_mean, frequencies):
     '''
     input : X_params_without_k_normalized = [w, DC, pitch]
     output : (n_k_list, f_k_list) -> les points de la courbe n=y(f)
     '''
-    grating_pitch_denormalized=X_params_without_k_normalized[2]*X_data_array_50_std[2]+X_data_array_50_mean[2]
+    grating_pitch_denormalized=X_params_without_k_normalized[2]*X_data_array_5000_std[2]+X_data_array_5000_mean[2]
     k_list_denormalized = [conversion_k(round(num, 2), grating_pitch_denormalized*1e-9) for num in np.arange(0.25, 0.50, 0.01)]
-    k_list_normalized = [(k_denormalized-X_data_array_50_mean[3])/X_data_array_50_std[3] for k_denormalized in k_list_denormalized]
+    k_list_normalized = [(k_denormalized-X_data_array_5000_mean[3])/X_data_array_5000_std[3] for k_denormalized in k_list_denormalized]
     X_params_list = np.array([X_params_without_k_normalized+[k] for k in k_list_normalized])
     spectrum_k_list=[]
     n_k_list=[]
@@ -74,18 +67,17 @@ def calculate_func_neff_f(X_params_without_k_normalized, feedforward_model, devi
         spectrum_k_list.append(spectrum_k.detach().cpu().numpy())
     # Prédire les fréquences de résonances et les indices eff pour chaque k
     for i in range(len(spectrum_k_list)) :
-        X_params_denormalized=X_params_list[i]*X_data_array_50_std+X_data_array_50_mean
-        n_eff_k, f_k=n_eff_one(X_params_denormalized, spectrum_k_list[i],  filtered_frequencies)
+        X_params_denormalized=X_params_list[i]*X_data_array_5000_std+X_data_array_5000_mean
+        n_eff_k, f_k=n_eff_one(X_params_denormalized, spectrum_k_list[i],  frequencies)
         n_k_list_temp.append(n_eff_k)
         f_k_list_temp.append(f_k)
-        #plt.plot(spectrum_k_list[i])
-        #plt.title(f'exemple {i}, n={n_eff_k}, f={f_k}')
-        #plt.show()
     for i in range(len(n_k_list_temp)):
-        if i!=0 and i!= len(n_k_list_temp)-1:
-            if (n_k_list_temp[i+1]!=[] or n_k_list_temp[i-1]!=[]) and n_k_list_temp[i]!=[]:
-                n_k_list.append(n_k_list_temp[i][0])
-                f_k_list.append(f_k_list_temp[i][0])
+        if n_k_list_temp[i]!=[]:
+            mse, y_fit = approx_gauss(spectrum_k_list[i])
+            if i!=0 and i!= len(n_k_list_temp)-1:
+                if (n_k_list_temp[i+1]!=[] or n_k_list_temp[i-1]!=[]) and n_k_list_temp[i]!=[]:
+                    n_k_list.append(n_k_list_temp[i][0])
+                    f_k_list.append(f_k_list_temp[i][0])
         else : 
             if n_k_list_temp[i]!=[]:
                 n_k_list.append(n_k_list_temp[i][0])
@@ -135,12 +127,12 @@ def filter_trend(f_values, n_values, lookahead=3):
     
     return f_filtered_values, n_filtered_values
 
-def eval_n_eff_balayage_k(X_without_k, f_desired, feedforward_model, device, X_data_array_50_std, X_data_array_50_mean, filtered_frequencies):
+def eval_n_eff_balayage_k(X_without_k, f_desired, feedforward_model, device, X_data_array_5000_std, X_data_array_5000_mean, frequencies):
     '''
     input : X_without_k = [w,DC, pitch], f_desired
     output : y(f_desired), avec le fonction y(f)=n déduit de calculate_func_neff_f
     '''
-    n_k_list, f_k_list=calculate_func_neff_f(X_without_k, feedforward_model, device, X_data_array_50_std, X_data_array_50_mean, filtered_frequencies)
+    n_k_list, f_k_list=calculate_func_neff_f(X_without_k, feedforward_model, device, X_data_array_5000_std, X_data_array_5000_mean, frequencies)
     f_filtered, n_filtered = filter_trend(f_k_list,n_k_list)
     if f_filtered==[]:
         return(0)
