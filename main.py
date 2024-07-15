@@ -13,6 +13,10 @@ from GA.ga_evaluate import error_npred_ndesired
 warnings.filterwarnings('ignore', message='Polyfit may be poorly conditioned', category=np.RankWarning)
 warnings.filterwarnings("ignore", category=RuntimeWarning, module="deap.creator")
 
+def main():
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    print(device)
+'''
 # EDA
 X_data_array_50, y_data_array_50=filter_data()
 X_data_array_50_normalized, X_data_array_50_mean, X_data_array_50_std=normalize_X(X_data_array_50)
@@ -22,6 +26,7 @@ filtered_frequencies=np.linspace(171309976000000, 222068487407407, 50)
 
 # DEVICE
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+print(device)
 
 # FEEDFORWARD MODEL
 input_size_ffn = 4
@@ -59,7 +64,7 @@ def main():
     plt.plot(response_spectrum)
     plt.title("Predicted Response spectrum with best parameters")
     #plt.show()
-    
+'''
 
 if __name__ == "__main__":
     main()
