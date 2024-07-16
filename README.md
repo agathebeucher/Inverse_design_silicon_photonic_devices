@@ -62,18 +62,18 @@ This project includes a feedforward neural network model that predicts the frequ
 
 Using these four parameters, the network predicts 5000 values of the electric field spectrum, from which the resonance frequency and the effective refractive index of the structure can be derived.
 
-1. Prediction with Neural Network:
+1. **Prediction with Neural Network** :
 - Input the design parameters (w, DC, pitch, k) into the feedforward neural network.
 - Predict the frequency spectrum of the electric field.
 - Determine the resonance frequency and compute the effective refractive index n for each wave vector k.
 
-2. Optimization with Genetic Algorithm:
+2. **Optimization with Genetic Algorithm** :
 - Generate combinations of design parameters (w, DC, pitch) using a genetic algorithm.
 - For each combination, sweep through multiple values of k.
 - Use the feedforward model to obtain the resonance frequency and the corresponding n for each k.
 - Plot n as a function of the resonance frequency f.
 
-3. Targeted Refractive Index Calculation:
+3. **Targeted Refractive Index Calculation** :
 
 - Input a desired refractive index n and a specific frequency f.
 - The genetic algorithm minimizes the difference between the obtained n from the curve and the desired n, returning the optimal values for w, DC, and pitch.
