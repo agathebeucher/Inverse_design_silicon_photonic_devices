@@ -33,8 +33,9 @@ This project for nanophotonics design optimization involves developing a **feedf
 
 You can find the raw dataset from this [link](https://drive.google.com/file/d/1MrYbl_xirYWJZCTmyr7kOeqM50SCQTUO/view?usp=sharing), you can download it and place the dowloaded dataset in a "data" folder at the root folder and make sure the unzip file is named "NN_training_combine_new.csv", but you won't need it to run the rest : 
 
-1. **Download the repository** : Clone or download this Git repository
-2. **Install librairies** : Run the script *requirements.txt* to install all necessaries dependencies : 
+1. **Download the repository** : Clone or download this Git repository to your local machine
+2. **Install python** : Ensure that you have Python and pip installed on your system.
+3. **Install dependencies** : Run the script *requirements.txt* to install all necessaries dependencies : 
 ```
 pip install -r requirements.txt
 ```
