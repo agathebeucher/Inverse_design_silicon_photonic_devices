@@ -44,7 +44,8 @@ Once you have everything set up, you can run the project by executing the follow
 ```
 python3 main.py --n_desired {n_value} --wavelength_desired {wavelength_value}
 ```
-If you want, you can also fix the value of the width (in nm) and/or the pitch (in nm), but those arguments are optionnal : 
+If you want, you can also fix the value of the width (in nm) and/or the pitch (in nm), but those arguments are optionnal.
+
 For instance, you can run in your terminal: 
 ```
 python3 main.py --n_desired 1.5 --wavelength_desired 1550 --fixed_w 430.0 -- fixed_pitch 300.0
