@@ -93,6 +93,10 @@ Due to the one-to-many nature of the problem, we cannot directly predict the fou
 
 We start by predicting the frequency spectrum corresponding to four design parameters. This is done using the response prediction network, known as the feedforward network. Its architecture is defined in *Feedforward_network/feedforward_network_model.py*. This fully connected network has four layers, with hyperparameters like learning rate and hidden sizes optimized using Optuna. 
 
+file:///home/beucher/T%C3%A9l%C3%A9chargements/Organigramme%20%20(1).jpg
+
+
+
 The trained model, that is to say the state of the weights and biases after training, is saved at *Feedforward_network/feedforward_network_trained.pth*.
 
 ### III- Genetic algorithm (GA)
