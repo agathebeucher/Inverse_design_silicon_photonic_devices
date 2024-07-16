@@ -1,4 +1,6 @@
 from scipy.optimize import curve_fit
+import numpy as np
+import time
 
 def approx_gauss(y_data):
     # Générer une liste de 5000 valeurs allant de 0 à 4999 avec np.linspace
@@ -20,7 +22,6 @@ def approx_gauss(y_data):
 
         # Calculer l'erreur quadratique moyenne (MSE)
         mse = np.mean(residuals**2)
-        
         return(mse, y_fit)
     
     except RuntimeError as e:

@@ -22,14 +22,14 @@ def find_1D_localmax_one(data,threshold, sample_dist):
         if max_value-data[c[0]]>0.5:
             return([])
         else:
-            return(c[0])
+            return([c[0]])
     else:
         return([])
 
 def n_eff_one(X_data, y_data, freq):
     #get analysis parameters
-    peaks_threshold = 0.1
-    sample_dist = 1
+    peaks_threshold = 0.01
+    sample_dist = 10
 
     #load data
     freq_axis= freq
@@ -58,7 +58,6 @@ def calculate_func_neff_f(X_params_without_k_normalized, feedforward_model, devi
     spectrum_k_list=[]
     n_k_list=[]
     f_k_list=[]
-    k_list_peak=[]
     n_k_list_temp=[]
     f_k_list_temp=[]
     # Prédire les spectre en fréquence pour chaque k

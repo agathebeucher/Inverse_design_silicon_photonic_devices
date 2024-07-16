@@ -4,6 +4,7 @@ import warnings
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy import constants as ct
+from scipy.optimize import OptimizeWarning
 from EDA.filter_data import filter_data
 from EDA.normalize_data import normalize_X, normalize_y
 from Feedforward_network.feedforward_network_load import feedforward_network_load
@@ -11,7 +12,9 @@ from GA.ga_model import ga
 from GA.ga_evaluate import error_npred_ndesired
 
 warnings.filterwarnings('ignore', message='Polyfit may be poorly conditioned', category=np.RankWarning)
-warnings.filterwarnings("ignore", category=RuntimeWarning, module="deap.creator")
+warnings.filterwarnings('ignore', category=RuntimeWarning, module="deap.creator")
+warnings.filterwarnings("ignore", category=OptimizeWarning, message="Covariance of the parameters could not be estimated")
+
 
 # EDA : filter, normalize data
 X_data_array_5000, y_data_array_5000=filter_data()
@@ -45,8 +48,13 @@ def main():
     print(f"f resonance predicted with those parameters : {f_pred[0]}")
     print(f'f_desired : {f_desired}')
 
+
+    # Save results
+    with open("results/result_param.txt", "a") as file:
+        file.write(f"n={args.n_desired}, f={f_desired}, w={best_param_denormalized[0]}, DC={best_param_denormalized[1]}, pitch={best_param_denormalized[2]}\n")
     plt.plot(response_spectrum)
-    plt.title("Predicted Response spectrum with best parameters")
+    plt.title(f"Predicted Response spectrum for w={best_param_denormalized[0]:.0f}, DC={best_param_denormalized[1]}:.2f, pitch={best_param_denormalized[2]:.0f}")
+    plt.savefig(f"results/figures/response_spectrum_n_{args.n_desired}_f_{f_desired}.png")
     #plt.show()
 
 

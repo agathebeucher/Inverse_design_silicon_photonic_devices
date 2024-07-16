@@ -40,9 +40,9 @@ def filter_data():
     y_data_5000=np.load('/home/beucher/Documents/PRE/PRE/data/y_data_array_5000.npy').tolist()
     nb_peaks_5000=np.load('/home/beucher/Documents/PRE/PRE/data/nb_peaks_array_5000.npy').tolist()
 
-    indices_at_least_one_peak_50 = [i for i, val in enumerate(nb_peaks_5000) if val == 1.0]
-    X_data_one_peak_5000 = [X_data_5000[i] for i in indices_at_least_one_peak_50]
-    y_data_one_peak_5000 = [y_data_5000[i] for i in indices_at_least_one_peak_50]
+    #indices_at_least_one_peak_5000 = [i for i, val in enumerate(nb_peaks_5000) if val == 1.0]
+    #X_data_one_peak_5000 = [X_data_5000[i] for i in indices_at_least_one_peak_5000]
+    #y_data_one_peak_5000 = [y_data_5000[i] for i in indices_at_least_one_peak_5000]
     #nb_peaks_at_least_one_peak_50 = [nb_peaks[i] for i in indices_at_least_one_peak_50]
     #y_data_at_least_one_peak_5000 = y_data_5000.loc[indices_at_least_one_peak_50]
 
@@ -50,7 +50,7 @@ def filter_data():
     #y_data_array_5000 = np.array(y_data_at_least_one_peak_5000.values.tolist(), dtype=np.float32)
     #X_data_array_500= np.array(X_data_at_least_one_peak_500.values, dtype=np.float32)
     #y_data_array_500 = np.array(y_data_at_least_one_peak_500.values.tolist(), dtype=np.float32)
-    X_data_array_5000= np.array(X_data_one_peak_5000, dtype=np.float32)
-    y_data_array_5000= np.array(y_data_one_peak_5000, dtype=np.float32)
+    X_data_array_5000= np.array(X_data_5000, dtype=np.float32)
+    y_data_array_5000= np.array(y_data_5000, dtype=np.float32)
 
     return(X_data_array_5000, y_data_array_5000)

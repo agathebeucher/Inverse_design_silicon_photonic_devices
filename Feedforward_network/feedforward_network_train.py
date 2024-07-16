@@ -12,7 +12,7 @@ def feedforward_network_train(X_train, y_train, X_val, y_val):
 
     # Paramètres du réseau (meilleurs paramètres identifiés)
     # 0.0015904915677152046
-    best_lr = 0.001590491567715046
+    best_lr = 0.00067763307084440112
     best_hidden_sizes = [955, 925, 1005, 407, 580, 1309]
 
     # Entraîner le modèle avec les meilleurs paramètres
