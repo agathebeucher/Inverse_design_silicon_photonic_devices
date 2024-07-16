@@ -4,21 +4,26 @@
 
 ### inverse_design_silicon_photonic_devices/
 - **EDA/**
-    - `filter_data.py`
+    - `load_data.py`
     - `normalize_data.py`
 - **Feedforward_network/**
     - `feedforward_model_trained.pth`
-    - `feedfroward_network_evaluate.py`
+    - `feedfroward_network_evaluate.py` 
+    - `feedforward_network_load.py`
     - `feedforward_network_train.py`
     - `feedforward_network_model.py`
-- **Inverse_deisgn_network/**
-    - **GA/**
-        - `ga_evaluate.py`
-        - `ga_model.py`
-    - **Tandem_network/**
-        - `Ìnverse_network_evaluate.py`
-        - `Ìnverse_network_model.py`
-        - `Inverse_network_train.py`
+-  **GA**
+    - `approx_gauss.py`
+    - `balayage_k.py`
+    - `ga_evaluate.py`
+    - `ga_model.py`
+- **Inverse_design_network/tandem_network**
+    - `Ìnverse_network_evaluate.py`
+    - `Ìnverse_network_model.py`
+    - `Inverse_network_train.py`
+-  **results**
+    - `figures/`
+    - `result_param.txt`
 
 ## PROJECT OVERVIEW 
 
@@ -38,17 +43,24 @@ Once you have everything set up, you can run the project by executing the follow
 ```
 python3 main.py --n_desired {n_value} --wavelength_desired {wavelength_value}
 ```
+If you want, you can also fix the value of the width (in nm) and/or the pitch (in nm), but those arguments are optionnal : 
+For instance, you can run in your terminal: 
+```
+python3 main.py --n_desired 1.5 --wavelength_desired 1550 --fixed_w 430.0 -- fixed_pitch 300.0
+```
+
 Make sure your values are *floats*.
 
 ## MODELS
 
 This project includes a feedforward neural network model that predicts the frequency spectrum of the electric field for a nanophotonic structure. The model takes four design parameters as inputs:
 
-w: Width of the waveguide
-DC: Duty cycle
-Pitch: Distance between adjacent elements
-k: Wave vector
-Using these parameters, the network predicts the electric field spectrum, from which the resonance frequency and the effective refractive index of the structure can be derived.
+- w: Width of the waveguide
+- DC: Duty cycle
+- Pitch: Distance between adjacent elements
+- k: Wave vector (deduced from the value of n_desired and f_desired)
+
+Using these four parameters, the network predicts 5000 values of the electric field spectrum, from which the resonance frequency and the effective refractive index of the structure can be derived.
 
 1. Prediction with Neural Network:
 - Input the design parameters (w, DC, pitch, k) into the feedforward neural network.
@@ -56,7 +68,6 @@ Using these parameters, the network predicts the electric field spectrum, from w
 - Determine the resonance frequency and compute the effective refractive index n for each wave vector k.
 
 2. Optimization with Genetic Algorithm:
-
 - Generate combinations of design parameters (w, DC, pitch) using a genetic algorithm.
 - For each combination, sweep through multiple values of k.
 - Use the feedforward model to obtain the resonance frequency and the corresponding n for each k.
@@ -74,9 +85,9 @@ In other words :
 - y_data=[..,..,..] -> 5000 values of the electrical field for frequency values beteween ... and ...
 
 ### I- EDA
-First, we filter our data to keep only the frequency spectrums that show a peak (>0.01). We then normalize both X_data and y_data.
+First, we filter our data to keep only the frequency spectrums that shows one peak (|E|>0.01). We then normalize both X_data and y_data (see *EDA/normalize_data*).
 
-### II- Feedforward model
+### II- Feedforward model (FFN)
 
 Due to the one-to-many nature of the problem, we cannot directly predict the four parameters from one effective index since multiple designs can correspond to a single effective index. Instead, we use an inverse design approach.
 
@@ -84,12 +95,5 @@ We start by predicting the frequency spectrum corresponding to four design param
 
 The trained model, that is to say the state of the weights and biases after training, is saved at *Feedforward_network/feedforward_network_trained.pth*.
 
-### III- Inverse Design 
-Now that we can predict the frequency response to four design parameters, we want to reverse this process. There are two possible approaches:
-
-####    a) Tandem Network
-We use another fully connected network optimized and trained through a tandem network. This involves using the feedforward network at the output of the inverse design network, transforming our problem into a one-to-one problem. The model learns to fit a frequency response, rather than the four parameters, whose response is not unique.
-
-####    b) Genetic algorithm
-Alternatively, we can use a genetic algorithm to generate various combinations of parameters. This algorithm tests all combinations using the feedforward network to determine the best fit for the desired frequency response.
+### III- Genetic algorithm (GA)
 

@@ -33,60 +33,71 @@ BOUNDS = {
 
 def check_bounds(individual):
     ''' Check and correct the param if they are out of bounds'''
-    for i,(param, (lower, upper)) in enumerate(BOUNDS.items()):
+    for i, (param, (lower, upper)) in enumerate(BOUNDS.items()):
         if individual[i] < lower:
             individual[i] = lower
         elif individual[i] > upper:
             individual[i] = upper
     return individual
 
-def ga(desired_frequency, desired_neff, feedforward_model, device, X_data_array_5000_std, X_data_array_5000_mean, frequencies):
+def ga(desired_frequency, desired_neff, feedforward_model, device, X_data_array_5000_std, X_data_array_5000_mean, frequencies, fixed_params):
     '''
     input : desired_frequency, desired_neff
     output : best_ind=[w,DC, pitch]
     Renvoie les meilleurs paramètres w,DC, pitch tels que y(f_desired,w,DC, pitch)=n_pred proche de desired_neff
     '''
-    print("Running genetic algorithm...")    
-    start=time.time()
-    '''
-    # Thread pour afficher le temps écoulé
-    global stop_flag
-    stop_flag = False
-    timer_thread = threading.Thread(target=display_elapsed_time)
-    timer_thread.start()
-    '''
+    print("Running genetic algorithm...")
+    start = time.time()
+
     # Création des types de base
     creator.create("FitnessMin", base.Fitness, weights=(-1.0,))
     creator.create("Individual", list, fitness=creator.FitnessMin)
 
     toolbox = base.Toolbox()
 
-    toolbox.register("attr_w", random.uniform,*BOUNDS['w'])
-    toolbox.register("attr_dc", random.uniform, *BOUNDS['DC'])
-    toolbox.register("attr_pitch", random.uniform, *BOUNDS['pitch'])
+    if fixed_params['w'] is None:
+        toolbox.register("attr_w", random.uniform, *BOUNDS['w'])
+    if fixed_params['DC'] is None:
+        toolbox.register("attr_dc", random.uniform, *BOUNDS['DC'])
+    if fixed_params['pitch'] is None:
+        toolbox.register("attr_pitch", random.uniform, *BOUNDS['pitch'])
+
+    def init_individual(container):
+        individual = container()
+        if fixed_params['w'] is not None:
+            individual.append(fixed_params['w'])
+        else:
+            individual.append(toolbox.attr_w())
+
+        if fixed_params['DC'] is not None:
+            individual.append(fixed_params['DC'])
+        else:
+            individual.append(toolbox.attr_dc())
+
+        if fixed_params['pitch'] is not None:
+            individual.append(fixed_params['pitch'])
+        else:
+            individual.append(toolbox.attr_pitch())
+        return individual
 
     # Initialiser les individus et la population
-    toolbox.register("individual", tools.initCycle, creator.Individual,
-                     (toolbox.attr_w, toolbox.attr_dc, toolbox.attr_pitch), n=1)
+    toolbox.register("individual", init_individual, creator.Individual)
     toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 
     # Définir la fonction de fitness
     def evalNeff(individual):
-        individual=check_bounds(individual)
+        individual = check_bounds(individual)
         w, DC, pitch = individual
         neff = eval_n_eff_balayage_k([w, DC, pitch], desired_frequency, feedforward_model, device, X_data_array_5000_std, X_data_array_5000_mean, frequencies)
-        if neff==0:
-            #print(f'neff: {neff}')
-            return(abs(neff - desired_neff),)
-        else :
+        if neff == 0:
+            return (abs(neff - desired_neff),)
+        else:
             n_pred, response_spectrum = eval_neff_params_frequency([w, DC, pitch], desired_neff, desired_frequency, feedforward_model, device, X_data_array_5000_std, X_data_array_5000_mean, frequencies)
-            if len(n_pred[0])==0:
-                diff_f=10
-                #print(f'neff: {neff}, diff_f: {diff_f}')
+            if len(n_pred[0]) == 0:
+                diff_f = 10
             else:
-                diff_f=abs(n_pred[0][0]-neff)
-                #print(f'neff: {neff}, n_pred: {n_pred[0][0]}, diff_f: {diff_f}')
-            return (abs(neff - desired_neff)+diff_f,)
+                diff_f = abs(n_pred[0][0] - neff)
+            return (abs(neff - desired_neff) + diff_f,)
 
     toolbox.register("evaluate", evalNeff)
     toolbox.register("mate", tools.cxBlend, alpha=0.5)
@@ -104,40 +115,16 @@ def ga(desired_frequency, desired_neff, feedforward_model, device, X_data_array_
         algorithms.eaSimple(population, toolbox, cxpb, mutpb, ngen=1, verbose=1)
 
         # Afficher les meilleurs individus après chaque génération
-        best_ind=tools.selBest(population, 1)[0]
-        best_fitness=best_ind.fitness.values[0]
+        best_ind = tools.selBest(population, 1)[0]
+        best_fitness = best_ind.fitness.values[0]
 
         # Vérifier le critère d'arrêt
         if best_fitness < min_loss:
             break
-    
-    # Arrêter le thread du timer
-    #stop_flag = True
-    #timer_thread.join()
 
     # Afficher les meilleurs résultats
     best_ind = tools.selBest(population, 1)[0]
-    end=time.time()
-    elapsed_time=end-start
+    end = time.time()
+    elapsed_time = end - start
     print(f'Elapsed time: {elapsed_time} seconds')
-    return(best_ind)
-
-def display_elapsed_time(total_time=1000):
-    start_time = time.time()
-    while not stop_flag:
-        elapsed_time = int(time.time() - start_time)
-        progress = elapsed_time / total_time
-        bar_length = 50
-        block = int(round(bar_length * progress))
-        bar = "#" * block + "-" * (bar_length - block)
-        sys.stdout.write(f'\rRunning genetic algorithm : [{bar}] {elapsed_time}/{total_time} seconds')
-        sys.stdout.flush()
-        time.sleep(1)
-        if elapsed_time >= total_time:
-            break
-    elapsed_time = int(time.time() - start_time)
-    progress = elapsed_time / total_time
-    block = int(round(bar_length * progress))
-    bar = "#" * block + "-" * (bar_length - block)
-    sys.stdout.write(f'\rRunning genetic algorithm : [{bar}] {elapsed_time}/{total_time} seconds\n')
-    sys.stdout.flush()
+    return best_ind 
