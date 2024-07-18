@@ -3,26 +3,31 @@ import numpy as np
 import time
 
 def approx_gauss(y_data):
-    # Générer une liste de 5000 valeurs allant de 0 à 4999 avec np.linspace
+    '''
+    This function approximates a Gaussian function to the given data and computes the mean squared error (MSE) of the fit.
+    '''
+    # Generate a list of 5000 values ranging from 0 to 4999 using np.linspace
     x_data = np.linspace(0, 5000, 5000, dtype=int)
-    
-    # Définir la fonction gaussienne non centrée
+
+    # Define the non-centered Gaussian function
     def gaussienne(x, a, mu, sigma):
         return a * np.exp(-((x - mu) ** 2) / (2 * sigma ** 2))
-    try :
-        # Ajuster la fonction gaussienne aux données
+
+    try:
+        # Fit the Gaussian function to the data
         popt, pcov = curve_fit(gaussienne, x_data, y_data, p0=[np.max(y_data), np.argmax(y_data), np.std(y_data)])
         
-        # popt contient les valeurs optimales pour a, mu et sigma
+        # popt contains the optimal values for a, mu, and sigma
         a_opt, mu_opt, sigma_opt = popt
 
-        # Comparer les écarts entre la courbe ajustée et les données réelles
+        # Compare the differences between the fitted curve and the real data
         y_fit = gaussienne(x_data, *popt)
         residuals = y_data - y_fit
 
-        # Calculer l'erreur quadratique moyenne (MSE)
-        mse = np.mean(residuals**2)
-        return(mse, y_fit)
+        # Compute the mean squared error (MSE)
+        mse = np.mean(residuals ** 2)
+        return mse, y_fit
     
     except RuntimeError as e:
+        # Return None if the fitting fails
         return None, None

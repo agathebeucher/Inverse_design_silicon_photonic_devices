@@ -8,7 +8,6 @@
     - `normalize_data.py`
 - **Feedforward_network/**
     - `feedforward_model_trained_gpu_5000.pth`
-    - `feedfroward_network_evaluate.py` 
     - `feedforward_network_load.py`
     - `feedforward_network_train.py`
     - `feedforward_network_model.py`
@@ -18,7 +17,6 @@
     - `ga_evaluate.py`
     - `ga_model.py`
 - **Inverse_design_network/tandem_network**
-    - `Ìnverse_network_evaluate.py`
     - `Ìnverse_network_model.py`
     - `Inverse_network_train.py`
 -  **results**
@@ -27,15 +25,15 @@
 
 ## PROJECT OVERVIEW 
 
-This project for nanophotonics design optimization involves developing a **feedforward neural network** and a **genetic algorithm** to optimize the design of nanophotonic silicon devices. This tool aims to predict and tune the design parameters of a naniphtonic structure effective based on a specified refractive index at a given wavelength.
+This project for nanophotonics design optimization involves developing a **feedforward neural network** and a **genetic algorithm** to optimize the design of nanophotonics silicon subwavelength grating waveguide. This tool aims to predict and tune the design parameters of a waveguides to reach a specific refractive index at a given wavelength.
 
 ## GETTING STARTED ON YOUR MACHINE
 
 You can find the raw dataset from this [link](https://drive.google.com/file/d/1MrYbl_xirYWJZCTmyr7kOeqM50SCQTUO/view?usp=sharing), you can download it and place the dowloaded dataset in a "data" folder at the root folder and make sure the unzip file is named "NN_training_combine_new.csv", but you won't need it to run the rest : 
 
 1. **Download the repository** : Clone or download this Git repository to your local machine
-2. **Install python** : Ensure that you have Python and pip installed on your system.
-3. **Install dependencies** : Run the script *requirements.txt* to install all necessaries dependencies : 
+2. **Install python** : Ensure that you have Python and the pip command installed on your system.
+3. **Install dependencies** : Run the script *requirements.txt* to install all necessaries dependencies by executing in your terminal the following command : 
 ```
 pip install -r requirements.txt
 ```
@@ -62,7 +60,32 @@ This project includes a feedforward neural network model that predicts the frequ
 - Pitch: Distance between adjacent elements
 - k: Wave vector (deduced from the value of n_desired and f_desired)
 
-Using these four parameters, the network predicts 5000 values of the electric field spectrum, from which the resonance frequency and the effective refractive index of the structure can be derived.
+The model is based on the idea that, using these four parameters, the network predicts 5000 values of the electric field spectrum, from which the resonance frequency and the effective refractive index of the structure can be derived.
+
+However, the four parameters and the effective index are not directly linked. Using FDTD simulation, we predict the frequency spectrum of the waveguide based on these design parameters, and then obtain the effective index by extracting the resonance frequency and k. 
+
+### I- EDA
+Our dataset is made of the frequency spectrums for various combinations of design parameters, results of various FDTD simulations : 
+In other words : 
+- X_data=[w,DC,pitch,k] -> 4 values corresponding to the four designs parameters 
+- y_data=[..,..,..] -> 5000 values of the electrical field for frequency values 
+
+First, we filter our data to keep only the frequency spectrums that shows one peak (|E|>0.01). We then normalize both X_data and y_data (see *EDA/normalize_data*).
+
+### II- Feedforward model (FFN)
+
+Due to the one-to-many nature of the problem, we cannot directly predict the four parameters from one effective index since multiple designs can correspond to a single effective index.
+
+We start by predicting the frequency spectrum corresponding to four design parameters. This is done using a feedforward network as our response prediction network. Its architecture is defined in *Feedforward_network/feedforward_network_model.py*. This fully connected network has six layers, with hyperparameters like learning rate and hidden sizes optimized using Optuna. 
+
+The trained model, that is to say the state of the weights and biases after training, is saved at *Feedforward_network/feedforward_model_trained_gpu_5000.pth*. You can load it thanks to *feedforward_network_load()* defined in *Feedforward_network/feedforward_network_load.py*
+
+This model is able the predict the correct the effective index (error<0.01) in 95% of the time (evaluated on a test dataset of size 390)
+
+### III- Genetic algorithm (GA)
+Now that we have a model that can predict the frequency spectrum based on four input design parameters, we use a genetic algorithm to generate individuals better suited to reach the values that we want : n_desired and f_desired.
+
+
 
 1. **Prediction with Neural Network** :
 - Input the design parameters (w, DC, pitch, k) into the feedforward neural network.
@@ -79,24 +102,3 @@ Using these four parameters, the network predicts 5000 values of the electric fi
 
 - Input a desired refractive index n and a specific frequency f.
 - The genetic algorithm minimizes the difference between the obtained n from the curve and the desired n, returning the optimal values for w, DC, and pitch.
-
-The four parameters and the effective index are not directly linked. Using FDTD simulation, we predict the frequency spectrum of the waveguide based on these design parameters, and then obtain the effective index by extracting the resonance frequency and k. 
-Our dataset contains the frequency spectrum for various combinations of design parameters, results of various FDTD simulations : 
-In other words : 
-- X_data=[w,DC,pitch,k] -> 4 values corresponding to the four designs parameters 
-- y_data=[..,..,..] -> 5000 values of the electrical field for frequency values beteween ... and ...
-
-### I- EDA
-First, we filter our data to keep only the frequency spectrums that shows one peak (|E|>0.01). We then normalize both X_data and y_data (see *EDA/normalize_data*).
-
-### II- Feedforward model (FFN)
-
-Due to the one-to-many nature of the problem, we cannot directly predict the four parameters from one effective index since multiple designs can correspond to a single effective index. Instead, we use an inverse design approach.
-
-We start by predicting the frequency spectrum corresponding to four design parameters. This is done using the response prediction network, known as the feedforward network. Its architecture is defined in *Feedforward_network/feedforward_network_model.py*. This fully connected network has six layers, with hyperparameters like learning rate and hidden sizes optimized using Optuna. 
-
-
-The trained model, that is to say the state of the weights and biases after training, is saved at *Feedforward_network/feedforward_model_trained_gpu_5000.pth*. You can load it thanks to *feedforward_network_load()* defined in *Feedforward_network/feedforward_network_load.py*
-
-### III- Genetic algorithm (GA)
-Now that we have a model that can predict the spectrum in frequency based of four design parameters, we use a genetic algorithm to generate individuals better suited to the value that we want : n_desired and f_desired.
