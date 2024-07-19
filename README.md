@@ -10,6 +10,9 @@
 * [Project overview](#PROJECT-OVERVIEW)
 * [Getting started](#getting-started-on-your-machine)
 * [Models](#MODELS)
+    * [EDA](#i--EDA)
+    * [Feedforward network](#ii--feedforward-model-ffn)
+    * [Genetic Algorithme](#iii--genetic-algorithm)
 
 ## STRUCTURE
 
