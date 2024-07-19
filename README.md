@@ -101,7 +101,7 @@ The trained model, that is to say the state of the weights and biases after trai
 This model is able the predict the correct the effective index (error<0.01) in 95% of the time (evaluated on a test dataset of size 390). In this figure, in blue is represented the spectrum simulated by FDTD and in orange the spectrum predicted by the FFN model : 
 
 <p align="center"><img src="images/4-Train_Val_loss_over_Epochs_Response_network.png" height="300"><p>
-<p align="center"><img src="images/3-Result_testdataset_FFN_5000_frequencies.png" height="600"><p>
+<p align="center"><img src="images/3-Result_testdataset_FFN_5000_frequencies.png" height="800"><p>
 <p align="center"><I>Comparison of predicted spectra (orange) and actual spectra (blue) for examples from the test dataset for the FFN</I></p>
 
 ### III- Genetic algorithm (GA)
