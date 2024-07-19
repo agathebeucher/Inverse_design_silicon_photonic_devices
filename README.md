@@ -1,5 +1,10 @@
 # Inverse design of silicon photonic devices
 
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![NumPy](https://img.shields.io/badge/numpy-%23013243.svg?style=for-the-badge&logo=numpy&logoColor=white)
+![Pytorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)
+![Tensorflow](https://img.shields.io/badge/TensorFlow-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)
+
 ## STRUCTURE
 
 ### inverse_design_silicon_photonic_devices/
@@ -83,22 +88,16 @@ The trained model, that is to say the state of the weights and biases after trai
 This model is able the predict the correct the effective index (error<0.01) in 95% of the time (evaluated on a test dataset of size 390)
 
 ### III- Genetic algorithm (GA)
-Now that we have a model that can predict the frequency spectrum based on four input design parameters, we use a genetic algorithm to generate individuals better suited to reach the values that we want : n_desired and f_desired.
-
-
-
-1. **Prediction with Neural Network** :
-- Input the design parameters (w, DC, pitch, k) into the feedforward neural network.
-- Predict the frequency spectrum of the electric field.
-- Determine the resonance frequency and compute the effective refractive index n for each wave vector k.
-
-2. **Optimization with Genetic Algorithm** :
-- Generate combinations of design parameters (w, DC, pitch) using a genetic algorithm.
-- For each combination, sweep through multiple values of k.
-- Use the feedforward model to obtain the resonance frequency and the corresponding n for each k.
-- Plot n as a function of the resonance frequency f.
-
-3. **Targeted Refractive Index Calculation** :
+Now that we have a model that can predict the frequency spectrum based on four input design parameters, we use a genetic algorithm to generate individuals better suited to reach the values that we want : n_desired and f_desired. Here are the main steps of the process : 
 
 - Input a desired refractive index n and a specific frequency f.
-- The genetic algorithm minimizes the difference between the obtained n from the curve and the desired n, returning the optimal values for w, DC, and pitch.
+- Generate combinations of design parameters (w, DC, pitch) using a genetic algorithm within a range.
+- For each combination, sweep through multiple values of k.
+- Use the feedforward model to obtain the resonance frequency and the corresponding n for each k.
+- Plot n as a function *F(f_res)* of the resonance frequency f.
+- Evaluate the n obtained with the desired_freqquency for this function *F(f_res)*
+- Calculate the error between the n_desired and n_obtained
+- Select the individuals minimizing the difference between the obtained n from the curve and the desired n
+- Return the optimal values for w, DC, and pitch.
+
+# Credits
