@@ -1,4 +1,4 @@
-# Inverse design of SWG waveguides for silicon photonic devices
+# Inverse design of sSWG waveguides on silicon photonic devices
 
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 ![NumPy](https://img.shields.io/badge/numpy-%23013243.svg?style=for-the-badge&logo=numpy&logoColor=white)
@@ -51,7 +51,6 @@ You can find the raw dataset from this [link](https://drive.google.com/file/d/1M
 ```
 pip install -r requirements.txt
 ```
-
 Once you have everything set up, you can run the project by executing the following command in your terminal with the desired values of **effective index** at a given **wavelength** in *nanometers* :
 ```
 python3 main.py --n_desired {n_value} --wavelength_desired {wavelength_value}
@@ -99,9 +98,12 @@ We start by predicting the frequency spectrum corresponding to four design param
 
 The trained model, that is to say the state of the weights and biases after training, is saved at `Feedforward_network/feedforward_model_trained_gpu_5000.pth`. You can load it thanks to `feedforward_network_load()` defined in `Feedforward_network/feedforward_network_load.py`.
 
-This model is able the predict the correct the effective index (error<0.01) in 95% of the time (evaluated on a test dataset of size 390). In this figure, in blue is represented the spectrum simulated by FDTD and in ornage the spectrum predicted by the FFN model : 
+This model is able the predict the correct the effective index (error<0.01) in 95% of the time (evaluated on a test dataset of size 390). In this figure, in blue is represented the spectrum simulated by FDTD and in orange the spectrum predicted by the FFN model : 
 
-<p align="center"><img src="images/3-Result_testdataset_feedforward_model_5000.png" height="300"><p>
+<p align="center"><img src="images/4-Train_Val_loss_over_Epochs_Response_network.png" height="300"><p>
+<p align="center"><I>Evolution of Training and Validation Loss over Epochs for the FFN Prediction Network</I></p>
+
+<p align="center"><img src="images/3-Result_testdataset_FFN_5000_frequencies.png" height="300"><p>
 <p align="center"><I>Comparison of predicted spectra (orange) and actual spectra (blue) for examples from the test dataset for the FFN</I></p>
 
 ### III- Genetic algorithm (GA)
