@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy import constants as ct
 from scipy.optimize import OptimizeWarning
-from EDA.load_data import load_data
+from EDA.load_data import load_data, create_datasets
 from EDA.normalize_data import normalize_X, normalize_y
 from Feedforward_network.feedforward_network_load import feedforward_network_load
 from GA.ga_model import ga
@@ -17,11 +17,15 @@ warnings.filterwarnings("ignore", category=OptimizeWarning, message="Covariance 
 
 
 # EDA : load, normalize data
+# Load and normalize data
 X_data_array_5000, y_data_array_5000=load_data()
 X_data_array_5000_normalized, X_data_array_5000_mean, X_data_array_5000_std=normalize_X(X_data_array_5000)
 y_data_array_5000_normalized=normalize_y(y_data_array_5000)
-frequencies=np.linspace(171309976000000, 222068487407407, 5000)
 
+# Create Training/Test/Validation datasets
+test_size=0.2 # 80% training, 10% validation, 10% test
+X_train_5000_normalized, y_train_5000_normalized, X_test_5000_normalized, y_test_5000_normalized, X_val_5000_normalized, y_val_5000_normalized=create_datasets(X_data_array_5000_normalized, y_data_array_5000_normalized, test_size)
+frequencies=np.linspace(171309976000000, 222068487407407, 5000)
 
 # LOAD FEEDFORWARD MODEL (pre-trained)
 device = torch.device('cpu')
