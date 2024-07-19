@@ -74,10 +74,9 @@ This project includes a feedforward neural network model that predicts the frequ
 - Pitch: Distance between adjacent elements
 - k: Wave vector (deduced from the value of n_desired and f_desired)
 
-<p align="center"><img src="images/fig1-SWGwaveguide.png" height="300"><p>
+<p align="center"><img src="images/fig1-SWGwaveguide.png" height="200"><p>
 
-<p align="center"><I>Guide d’onde en silicium sur isolant avec un réseau à sous-longueur d’onde gravé longitudinalement ou transversalement</I></p>, 
-
+<p align="center"><I>Guide d’onde en silicium sur isolant avec un réseau à sous-longueur d’onde gravé longitudinalement ou transversalement</I></p>
 The model is based on the idea that, using these four parameters, the network predicts 5000 values of the electric field spectrum, from which the resonance frequency and the effective refractive index of the structure can be derived.
 
 However, the four parameters and the effective index are not directly linked. Using FDTD simulation, we predict the frequency spectrum of the waveguide based on these design parameters, and then obtain the effective index by extracting the resonance frequency and k. 
