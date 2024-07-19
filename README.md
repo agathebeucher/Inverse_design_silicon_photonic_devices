@@ -74,7 +74,8 @@ This project includes a feedforward neural network model that predicts the frequ
 - Pitch: Distance between adjacent elements
 - k: Wave vector (deduced from the value of n_desired and f_desired)
 
-![figure 1 : *Guide d’onde en silicium sur isolant avec un réseau à sous-longueur d’onde gravé longitudinalement ou transversalement*](images/fig1-SWGwaveguide.png)
+![figure 1](images/fig1-SWGwaveguide.png)
+*Guide d’onde en silicium sur isolant avec un réseau à sous-longueur d’onde gravé longitudinalement ou transversalement*
 
 The model is based on the idea that, using these four parameters, the network predicts 5000 values of the electric field spectrum, from which the resonance frequency and the effective refractive index of the structure can be derived.
 
