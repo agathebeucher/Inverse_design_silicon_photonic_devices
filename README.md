@@ -94,7 +94,7 @@ Due to the one-to-many nature of the problem, we cannot directly predict the fou
 
 We start by predicting the frequency spectrum corresponding to four design parameters. This is done using a feedforward network as our response prediction network. Its architecture is defined in `Feedforward_network/feedforward_network_model.py`. This fully connected network has six layers, with hyperparameters like learning rate and hidden sizes optimized using Optuna. 
 
-<p align="center"><img src="images/2-FFN.png" height="200"><p>
+<p align="center"><img src="images/2-FFN.jpg" height="200"><p>
 <p align="center"><I>Feedforward Neural Network (FFN) architecture with four design characteristic parameters of the SWG as input and 5000 values of the electric field for multiple frequency values as output</I></p>
 
 The trained model, that is to say the state of the weights and biases after training, is saved at `Feedforward_network/feedforward_model_trained_gpu_5000.pth`. You can load it thanks to `feedforward_network_load()` defined in `Feedforward_network/feedforward_network_load.py`.
