@@ -69,14 +69,13 @@ Make sure your values are *floats*.
 
 This project includes a feedforward neural network model that predicts the frequency spectrum of the electric field for a nanophotonic structure. The model takes four design parameters as inputs:
 
-- w: Width of the waveguide
-- DC: Duty cycle
-- Pitch: Distance between adjacent elements
-- k: Wave vector (deduced from the value of n_desired and f_desired)
+- **w** : Width of the waveguide
+- **DC** : Duty cycle
+- **Pitch** : Distance between adjacent elements
+- **k** : Wave vector (deduced from the value of n_desired and f_desired)
 
-<p align="center"><img src="images/fig1-SWGwaveguide.png" height="200"><p>
-
-<p align="center"><I>Guide d’onde en silicium sur isolant avec un réseau à sous-longueur d’onde gravé longitudinalement ou transversalement</I></p>
+<p align="center"><img src="images/1-SWGwaveguide.png" height="200"><p>
+<p align="center"><I>Silicon-on-insulator waveguide with a sub-wavelength grating etched longitudinally or transversely</I></p>
 The model is based on the idea that, using these four parameters, the network predicts 5000 values of the electric field spectrum, from which the resonance frequency and the effective refractive index of the structure can be derived.
 
 However, the four parameters and the effective index are not directly linked. Using FDTD simulation, we predict the frequency spectrum of the waveguide based on these design parameters, and then obtain the effective index by extracting the resonance frequency and k. 
@@ -94,6 +93,9 @@ First, we filter our data to keep only the frequency spectrums that shows one pe
 Due to the one-to-many nature of the problem, we cannot directly predict the four parameters from one effective index since multiple designs can correspond to a single effective index.
 
 We start by predicting the frequency spectrum corresponding to four design parameters. This is done using a feedforward network as our response prediction network. Its architecture is defined in `Feedforward_network/feedforward_network_model.py`. This fully connected network has six layers, with hyperparameters like learning rate and hidden sizes optimized using Optuna. 
+
+<p align="center"><img src="images/2-FFN.png" height="200"><p>
+<p align="center"><I>Feedforward Neural Network (FFN) architecture with four design characteristic parameters of the SWG as input and 5000 values of the electric field for multiple frequency values as output</I></p>
 
 The trained model, that is to say the state of the weights and biases after training, is saved at `Feedforward_network/feedforward_model_trained_gpu_5000.pth`. You can load it thanks to `feedforward_network_load()` defined in `Feedforward_network/feedforward_network_load.py`.
 
