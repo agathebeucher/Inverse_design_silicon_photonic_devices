@@ -6,12 +6,9 @@ import torch.optim as optim
 from .feed_forward_network_model import feedforward_network_model
 from sklearn.model_selection import KFold
 
+# Load and normalize data
 
-
-X_train_50_normalized
-X_train_50_normalized
-y_train_50_normalized
-y_train_50_normalized
+# Create datasets
 
 # Définir la fonction objectif pour Optuna avec validation croisée
 def objective(trial):
