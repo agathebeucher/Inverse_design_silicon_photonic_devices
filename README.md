@@ -25,6 +25,7 @@
     - `feedforward_model_trained_gpu_5000.pth`
     - `feedforward_network_load.py`
     - `feedforward_network_train.py`
+    - `feedforward_network_optimize_hyperparameters.py`
     - `feedforward_network_model.py`
 -  **GA**
     - `approx_gauss.py`
@@ -33,7 +34,7 @@
     - `ga_model.py`
 - **Inverse_design_network/tandem_network**
     - `Ìnverse_network_model.py`
-    - `Inverse_network_train.py`
+    - `Tandem_network_train.py`
 -  **results**
     - `figures/`
     - `result_param.txt`
