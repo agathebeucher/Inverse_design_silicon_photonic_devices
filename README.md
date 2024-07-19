@@ -5,6 +5,12 @@
 ![Pytorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)
 ![Tensorflow](https://img.shields.io/badge/TensorFlow-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)
 
+## CONTENTS 
+* [Structure](#STRUCTURE)
+* [Project overview](#PROJECT-OVERVIEW)
+* [Getting started](#getting-started-on-your-machine)
+* [Models](#MODELS)
+
 ## STRUCTURE
 
 ### inverse_design_silicon_photonic_devices/
@@ -75,15 +81,15 @@ In other words :
 - X_data=[w,DC,pitch,k] -> 4 values corresponding to the four designs parameters 
 - y_data=[..,..,..] -> 5000 values of the electrical field for frequency values 
 
-First, we filter our data to keep only the frequency spectrums that shows one peak (|E|>0.01). We then normalize both X_data and y_data (see `EDA/normalize_data`*`).
+First, we filter our data to keep only the frequency spectrums that shows one peak (|E|>0.01). We then normalize both X_data and y_data (see `EDA/normalize_data`).
 
 ### II- Feedforward model (FFN)
 
 Due to the one-to-many nature of the problem, we cannot directly predict the four parameters from one effective index since multiple designs can correspond to a single effective index.
 
-We start by predicting the frequency spectrum corresponding to four design parameters. This is done using a feedforward network as our response prediction network. Its architecture is defined in `Feedforward_network/feedforward_network_model.py`*`. This fully connected network has six layers, with hyperparameters like learning rate and hidden sizes optimized using Optuna. 
+We start by predicting the frequency spectrum corresponding to four design parameters. This is done using a feedforward network as our response prediction network. Its architecture is defined in `Feedforward_network/feedforward_network_model.py`. This fully connected network has six layers, with hyperparameters like learning rate and hidden sizes optimized using Optuna. 
 
-The trained model, that is to say the state of the weights and biases after training, is saved at *Feedforward_network/feedforward_model_trained_gpu_5000.pth*. You can load it thanks to *feedforward_network_load()* defined in *Feedforward_network/feedforward_network_load.py*
+The trained model, that is to say the state of the weights and biases after training, is saved at `Feedforward_network/feedforward_model_trained_gpu_5000.pth`. You can load it thanks to `feedforward_network_load()` defined in `Feedforward_network/feedforward_network_load.py`.
 
 This model is able the predict the correct the effective index (error<0.01) in 95% of the time (evaluated on a test dataset of size 390)
 
