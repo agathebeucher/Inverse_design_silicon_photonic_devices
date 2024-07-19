@@ -1,6 +1,7 @@
 numpy 
-skicit-learn
+skicit-learn # for hyperparameter optimization
 torch
 pandas
 matplotlib
-deap
+deap # for genetic algorithm
+optuna # for hyperparameter optimization

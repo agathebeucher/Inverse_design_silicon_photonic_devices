@@ -1,7 +1,5 @@
-import ast 
-import pandas as pd
-import csv
 import numpy as np
+from sklearn.model_selection import KFold, train_test_split
 
 def load_data():
     

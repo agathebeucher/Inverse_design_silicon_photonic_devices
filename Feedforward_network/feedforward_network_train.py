@@ -3,7 +3,21 @@ import torch.nn as nn
 import torch.optim as optim
 import matplotlib.pyplot as plt
 from .feedforward_network_model import FeedForwardNN
+from EDA.load_data import load_data, create_datasets
+from EDA.normalize_data import normalize_X, normalize_y
 
+'''
+# Load and normalize data
+X_data_array_5000, y_data_array_5000=load_data()
+X_data_array_5000_normalized, X_data_array_5000_mean, X_data_array_5000_std=normalize_X(X_data_array_5000)
+y_data_array_5000_normalized=normalize_y(y_data_array_5000)
+
+# Create Training/Test/Validation datasets
+test_size=0.2 # 80% training, 10% validation, 10% test
+X_train_5000_normalized, y_train_5000_normalized, X_test_5000_normalized, y_test_5000_normalized, X_val_5000_normalized, y_val_5000_normalized=create_datasets(X_data_array_5000_normalized, y_data_array_5000_normalized, test_size)
+
+feed_forward_model=feedforward_network_train(X_train_5000_normalized, y_train_5000_normalized, X_val_5000_normalized, y_val_5000_normalized) # Train the feedforward network
+'''
 
 def feedforward_network_train(X_train, y_train, X_val, y_val):
     # Network parameters

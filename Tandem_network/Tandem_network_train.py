@@ -2,21 +2,20 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import matplotlib.pyplot as plt
-from ../../Feedforward_network/feedforward_model import FeedForwardNN
-from ./Inverse_network_model import InverseNetwork
+from Feedforward_network.feedforward_network_model import FeedForwardNN
+from Inverse_network_model import InverseNetwork
 
 def Inverse_network_train(X_train_inverse, y_train_inverse, X_val_inverse, y_val_inverse):
-    # Paramètres du réseau
+    # Hyperparameters direct model
     input_size_ffn = 4
-    output_size_ffn = 50
+    output_size_ffn = 5000
     best_hidden_sizes_ffn = [300, 300, 300, 300]
-    # Entraîner le modèle avec les meilleurs paramètres
+    # Load the direct model (FFN) pre-trained
     feedforward_model = FeedForwardNN(input_size_ffn, best_hidden_sizes_ffn, output_size_ffn)
-    # Charger le modèle feedforward pré-entraîné
     feedforward_model.load_state_dict(torch.load('../../Feedforward_network/feedforward_model_trained.pth'))
     feedforward_model.eval()
 
-    # Entraîner le modèle inverse avec les meilleurs hyperparamètres trouvés
+    # Train the inverse model
     best_hidden_sizes_inverse = [300, 300,300,300,300]
     best_lr_inverse = 0.001
     best_structure_weight=0.95
@@ -29,19 +28,18 @@ def Inverse_network_train(X_train_inverse, y_train_inverse, X_val_inverse, y_val
         loss_total = structure_weight * loss_response + (1 - structure_weight) * loss_structure
         return loss_total
 
-    # Réinitialiser le modèle inverse avec les meilleurs hyperparamètres
+    # Hyperparameters inverse model
     input_size_inverse = 50
     output_size_inverse = 4
     inverse_model = InverseNetwork(input_size_inverse, best_hidden_sizes_inverse, output_size_inverse)
 
-    # Définir la fonction de perte et l'optimiseur avec les meilleurs hyperparamètres
+    # Loss function and criterion function
     criterion_inverse = nn.MSELoss()
     optimizer_inverse = optim.Adam(inverse_model.parameters(), lr=best_lr_inverse)
 
-    # Entraîner le modèle inverse avec les meilleurs hyperparamètres
     num_epochs_inverse = 5000
 
-    # Listes pour stocker les pertes
+    # List to stock the losses
     train_losses_inverse = []
     val_losses_inverse = []
 
@@ -63,10 +61,10 @@ def Inverse_network_train(X_train_inverse, y_train_inverse, X_val_inverse, y_val
                 val_losses_inverse.append(val_loss)
                 print(f"Epoch {epoch}, Training Loss: {loss.item()}, Validation Loss: {val_loss}")
 
-    # Sauvegarder le modèle
+    # Save the model
     #torch.save(inverse_model.state_dict(), 'inverse_model_trained.pth')
 
-    # Tracer les pertes
+    # Plot the loss over epochs
     plt.figure(figsize=(10, 5))
     plt.plot(train_losses_inverse, label='Training Loss')
     plt.plot(range(0, num_epochs_inverse, 100), val_losses_inverse, label='Validation Loss')
